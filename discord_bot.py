@@ -1,4 +1,3 @@
-from logging import error
 from discord.ext.commands.errors import CommandNotFound
 from dotenv import dotenv_values
 from discord.ext import commands
