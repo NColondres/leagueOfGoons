@@ -26,7 +26,7 @@ async def get_summoner_info(summoner_name: str):
     url = f'{BASEURL}/lol/summoner/v4/summoners/by-name/{summoner_name}'
     response = requests.get(url, headers=HEADER)
     if response.status_code == 404:
-        return f'You fucked up...\nPlayer not found'
+        return f'WOAH THERE BESSIE\n{summoner_name} not found'
     elif response.status_code == 200:
         return response.json()
     else:
