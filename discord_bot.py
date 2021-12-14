@@ -1,5 +1,6 @@
+from os import name
 import sqlite3
-from types import SimpleNamespace
+import discord
 from discord.ext.commands.errors import CommandNotFound
 from dotenv import dotenv_values
 from discord.ext import commands
@@ -39,7 +40,11 @@ async def enroll_error(ctx, error):
 async def enrolled(ctx):
     response = database.get_enrolled_users()
     if response:
-        await ctx.send(database.get_enrolled_users())
+        all_users = database.get_enrolled_users()
+        message = discord.Embed(title='Enrolled Players', description='You can enroll by typing "!enroll <Your Summoner Name>"', colour=discord.Color.dark_teal())
+        for user in range(len(all_users)):
+            message.add_field(name=all_users[user][0], value=all_users[user][2])
+        await ctx.send(embed=message)   
     else:
         await ctx.reply('Nobody is enrolled yet\nCalm your horses')
 
