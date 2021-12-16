@@ -7,18 +7,32 @@ def create_database(name: str):
     con = sqlite3.connect(f'./src/database/{name}')
     cur = con.cursor()
     #Create Table
-    cur.execute('''CREATE TABLE IF NOT EXISTS players
-                (discord_account text PRIMARY KEY, discord_id text UNIQUE, league_account text UNIQUE, league_puuid text UNIQUE)''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS players(
+                discord_account text PRIMARY KEY,
+                discord_id text UNIQUE,
+                league_account text UNIQUE,
+                league_puuid text UNIQUE,
+                last_match INTEGER);
+                ''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS matches(
+                match_id TEXT PRIMARY KEY,
+                player_id TEXT,
+                kills INTEGER,
+                deaths INTEGER,
+                assists INTEGER,
+                champion TEXT,
+                FOREIGN KEY(player_id) REFERENCES players(discord_id)
+                );''')
     con.commit()
     con.close()
 
 create_database(PLAYERS_DATABASE)
 
 
-def enroll_user(discord_account: str, discord_id: str, league_account: str, league_puuid: str):
+def enroll_user(discord_account: str, discord_id: str, league_account: str, league_puuid: str, last_match: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
-    cur.execute("INSERT INTO players VALUES (:discord_account, :discord_id, :league_account, :league_puuid)", {'discord_account': str(discord_account), 'discord_id': str(discord_id), 'league_account': str(league_account), 'league_puuid': str(league_puuid)})
+    cur.execute("INSERT INTO players VALUES (:discord_account, :discord_id, :league_account, :league_puuid, :last_match)", {'discord_account': str(discord_account), 'discord_id': str(discord_id), 'league_account': str(league_account), 'league_puuid': str(league_puuid), 'last_match': last_match})
     con.commit()
     con.close()
     return f'Player Account: {league_account} Enrolled'
