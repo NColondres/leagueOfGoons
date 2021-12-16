@@ -5,6 +5,7 @@ from discord.ext.commands.errors import CommandNotFound
 from dotenv import dotenv_values
 from discord.ext import commands
 from src import league, database
+import time
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 bot = commands.Bot(command_prefix='!')
@@ -21,7 +22,7 @@ async def enroll(ctx, *summoner_name: str):
         league_info = await league.get_summoner_info(combined_arguments)
         if isinstance(league_info, dict):
             try:
-                database.enroll_user(ctx.message.author, ctx.message.author.id, league_info["name"], league_info["puuid"])
+                database.enroll_user(ctx.message.author, ctx.message.author.id, league_info["name"], league_info["puuid"], int(time.time()))
                 await ctx.reply(f'{league_info["name"]} has been successfully enrolled with {ctx.message.author}')
             except sqlite3.IntegrityError as err:
                 league_account = database.get_enrolled_user(ctx.message.author)
