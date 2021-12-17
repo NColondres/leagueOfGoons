@@ -31,3 +31,12 @@ async def get_summoner_info(summoner_name: str):
         return response.json()
     else:
         return f'Response: {response.status_code}\nSomething went wrong'
+
+#Get League Matches using the last_match Unix epoch
+def get_league_matches(league_puuid, last_match):
+    url = f'https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{league_puuid}/ids?startTime={last_match}'
+    response = requests.get(url, headers=HEADER)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.status_code
