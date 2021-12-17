@@ -40,3 +40,11 @@ def get_league_matches(league_puuid, last_match):
         return response.json()
     else:
         return response.status_code
+
+def get_match_info(matchId):
+    url = f'https://americas.api.riotgames.com/lol/match/v5/matches/{matchId}'
+    response = requests.get(url, headers=HEADER)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.status_code
