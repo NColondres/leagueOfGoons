@@ -21,6 +21,7 @@ def create_database(name: str):
                 deaths INTEGER,
                 assists INTEGER,
                 champion TEXT,
+                win INTEGER,
                 FOREIGN KEY(player_id) REFERENCES players(discord_id)
                 );''')
     con.commit()
@@ -56,3 +57,27 @@ def unenroll_user(discord_account: str):
     con.commit()
     con.close()
     return 'You have been unerolled'
+
+def insert_match(match_id, player_id, kills, deaths, assists, champion):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                INSERT INTO matches VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion)
+    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion})
+    con.commit()
+    con.close()
+    return f'{match_id} added'
+
+def update_last_match(discord_id, time_in_seconds):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                UPDATE players
+                SET last_match = (:last_match)
+                WHERE discord_id = (:discord_id)
+                ''', {
+                    'discord_id': str(discord_id),
+                    'last_match': time_in_seconds
+                })
+    con.commit()
+    con.close()
