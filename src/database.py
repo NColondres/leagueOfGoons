@@ -3,6 +3,7 @@ import sqlite3
 from dotenv import dotenv_values
 
 PLAYERS_DATABASE = 'players_data.db'
+AMOUNT_OF_GAMES = int(dotenv_values('.env')['NUMBER_OF_MATCHES'])
 
 def create_database(name: str):
     con = sqlite3.connect(f'./src/database/{name}')
@@ -71,6 +72,16 @@ def insert_match(match_id, player_id, kills, deaths, assists, champion, win):
     con.close()
     return f'{match_id} added'
 
+def get_matches_by_user(discord_id):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                SELECT kills, deaths, assists, win FROM matches
+                WHERE player_id = (:discord_id)
+                ORDER BY match_id ASC
+                ''', {'discord_id': str(discord_id)})
+    return cur.fetchmany(AMOUNT_OF_GAMES)
+
 def update_last_match(discord_id, time_in_seconds):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
@@ -85,12 +96,16 @@ def update_last_match(discord_id, time_in_seconds):
     con.commit()
     con.close()
 
-def get_matches_by_user(discord_id):
+def update_complete_status_by_user(discord_id, status: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                SELECT kills, deaths, assists, win FROM matches
-                WHERE player_id = (:discord_id)
-                ORDER BY match_id ASC
-                ''', {'discord_id': str(discord_id)})
-    return cur.fetchmany(int(dotenv_values('.env')['NUMBER_OF_MATCHES']))
+                UPDATE players
+                SET complete_status = (:status)
+                WHERE discord_id = (:discord_id)
+                ''', {
+                    'discord_id': str(discord_id),
+                    'status': status
+                })
+    con.commit()
+    con.close()
