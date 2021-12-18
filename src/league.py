@@ -11,13 +11,13 @@ def check_league_api():
     url = f'{BASEURL}/lol/status/v4/platform-data'
     response = requests.get(url, headers= HEADER)
     if response.status_code == 200:
-        return 'API key is valid'
+        return 'League API key is valid\n[Starting]\n'
     elif response.status_code == 403:
         return False
         
 result = check_league_api()
 if result == False:
-    print('API Key is no longer valid. Place a new League API key in ".env" file')
+    print('League API Key is no longer valid. Place a new League API key in ".env" file')
     quit()
 else:
     print(result)

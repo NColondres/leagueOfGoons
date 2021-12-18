@@ -1,5 +1,6 @@
 from os import path
 import sqlite3
+from dotenv import dotenv_values
 
 PLAYERS_DATABASE = 'players_data.db'
 
@@ -12,10 +13,12 @@ def create_database(name: str):
                 discord_id text UNIQUE,
                 league_account text UNIQUE,
                 league_puuid text UNIQUE,
-                last_match INTEGER);
+                last_match INTEGER,
+                complete_status INTEGER DEFAULT 0 NOT NULL);
                 ''')
     cur.execute('''CREATE TABLE IF NOT EXISTS matches(
-                match_id TEXT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                match_id TEXT,
                 player_id TEXT,
                 kills INTEGER,
                 deaths INTEGER,
@@ -33,7 +36,7 @@ create_database(PLAYERS_DATABASE)
 def enroll_user(discord_account: str, discord_id: str, league_account: str, league_puuid: str, last_match: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
-    cur.execute("INSERT INTO players VALUES (:discord_account, :discord_id, :league_account, :league_puuid, :last_match)", {'discord_account': str(discord_account), 'discord_id': str(discord_id), 'league_account': str(league_account), 'league_puuid': str(league_puuid), 'last_match': last_match})
+    cur.execute("INSERT INTO players (discord_account, discord_id, league_account, league_puuid, last_match) VALUES (:discord_account, :discord_id, :league_account, :league_puuid, :last_match)", {'discord_account': str(discord_account), 'discord_id': str(discord_id), 'league_account': str(league_account), 'league_puuid': str(league_puuid), 'last_match': last_match})
     con.commit()
     con.close()
     return f'Player Account: {league_account} Enrolled'
@@ -58,12 +61,12 @@ def unenroll_user(discord_account: str):
     con.close()
     return 'You have been unerolled'
 
-def insert_match(match_id, player_id, kills, deaths, assists, champion):
+def insert_match(match_id, player_id, kills, deaths, assists, champion, win):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                INSERT INTO matches VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion)
-    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion})
+                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win)
+    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion, 'win': win})
     con.commit()
     con.close()
     return f'{match_id} added'
@@ -81,3 +84,13 @@ def update_last_match(discord_id, time_in_seconds):
                 })
     con.commit()
     con.close()
+
+def get_matches_by_user(discord_id):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                SELECT kills, deaths, assists, win FROM matches
+                WHERE player_id = (:discord_id)
+                ORDER BY match_id ASC
+                ''', {'discord_id': str(discord_id)})
+    return cur.fetchmany(int(dotenv_values('.env')['NUMBER_OF_MATCHES']))
