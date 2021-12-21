@@ -1,7 +1,8 @@
 from src import database as db
-import requests
 import time
+from datetime import datetime
 from src import league
+from discord_bot import bot
 
 data = db.get_enrolled_users()
 
@@ -30,22 +31,26 @@ if __name__ == '__main__':
                 user_puuid = user[3]
                 matches = league.get_league_matches(user_puuid, str(user[4]))
                 if not matches:
-                    print(f'{user[0]} has no matches played since last script runtime')
+                    last_match_time = datetime.fromtimestamp(user[4]).strftime('%b %d %I:%M:%S %p')
+                    print(f'{user[0]} has classic no matches played since {last_match_time}\n')
                 else:
                     for match in matches:
                         print(match)
                         match_info = league.get_match_info(match)
                         time.sleep(1)
-                        for participant in match_info['info']['participants']:
-                            if participant['puuid'] == user_puuid:
-                                print('Game Ended Unix Timestamp in Seconds:', int((match_info['info']['gameEndTimestamp']) / 1000) + 10)
-                                print('Kills:', participant['kills'])
-                                print('Deaths:', participant['deaths'])
-                                print('Assists:', participant['assists'])
-                                print('Champion:', participant['championName'])
-                                print('Win:', participant['win'])
-                                db.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000))
-                                print()
+                        if match_info['info']['gameMode'] == 'CLASSIC':
+                            for participant in match_info['info']['participants']:
+                                if participant['puuid'] == user_puuid:
+                                    print('Game Ended Unix Timestamp in Seconds:', int((match_info['info']['gameEndTimestamp']) / 1000) + 10)
+                                    print('Kills:', participant['kills'])
+                                    print('Deaths:', participant['deaths'])
+                                    print('Assists:', participant['assists'])
+                                    print('Champion:', participant['championName'])
+                                    print('Win:', participant['win'])
+                                    db.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000))
+                                    print()
+                        else:
+                            print('Match not a Classic game\n')
                     last_match = int((league.get_match_info(matches[0])['info']['gameEndTimestamp'] / 1000) + 10)
                     db.update_last_match(user[1], last_match)
                     time.sleep(1)
@@ -81,3 +86,4 @@ if __name__ == '__main__':
     else:
         print('Nobody is enrolled\n[Ending script]')
         quit()
+    print('[End]')
