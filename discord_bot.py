@@ -9,6 +9,7 @@ import time
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
+TASK_TIMER = 30
 bot = commands.Bot(command_prefix='!')
 
 @bot.event
@@ -71,7 +72,7 @@ def complete_user(user: tuple):
         return False
 
 
-@tasks.loop(minutes = 3)
+@tasks.loop(minutes = TASK_TIMER)
 async def results():
     await bot.wait_until_ready()
     channel = bot.get_channel(int(DISCORD_CHANNEL))
@@ -143,10 +144,6 @@ async def results():
             
     else:
         print('Nobody is enrolled yet')
-    # embed_message = discord.Embed(title='TOOK ME FUCKING HOURS TO GET THIS TO SEND EVERY 3 SECONDS', colour=discord.Color.dark_teal())
-    # await channel.send(embed=embed_message)
-
-
 
 if __name__ == '__main__':    
     results.start()
