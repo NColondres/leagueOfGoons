@@ -9,8 +9,8 @@ import time
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
-TASK_TIMER = 30
-bot = commands.Bot(command_prefix='!')
+TASK_TIMER = 5
+bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -24,10 +24,10 @@ async def enroll(ctx, *summoner_name: str):
         league_info = await league.get_summoner_info(combined_arguments)
         if isinstance(league_info, dict):
             try:
-                database.enroll_user(ctx.message.author, ctx.message.author.id, league_info["name"], league_info["puuid"], int(time.time()))
-                await ctx.reply(f'{league_info["name"]} has been successfully enrolled with {ctx.message.author}')
+                database.enroll_user(ctx.message.author.name, ctx.message.author.id, league_info["name"], league_info["puuid"], int(time.time()))
+                await ctx.reply(f'{league_info["name"]} has been successfully enrolled with {ctx.message.author.name}')
             except sqlite3.IntegrityError as err:
-                league_account = database.get_enrolled_user(ctx.message.author)
+                league_account = database.get_enrolled_user(ctx.message.author.name)
                 await ctx.reply(f'WOAH THERE BESSIE\nYou can\'t enroll with {combined_arguments} because you are already enrolled with {league_account[0][2]}')
         else:
             await ctx.reply(league_info)
@@ -53,7 +53,7 @@ async def enrolled(ctx):
 
 @bot.command()
 async def unenroll(ctx):
-    await ctx.reply(database.unenroll_user(ctx.message.author))
+    await ctx.reply(database.unenroll_user(ctx.message.author.name))
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
@@ -133,9 +133,10 @@ async def results():
                         else:
                             score += int((kills + assists) * 100)
                     if win:
-                        score += 2000
+                        score += 1000
                 database.update_score_by_user(user[1], score)
-                print(f'{user[0]} has a score of [{score}]')
+            for user in database.get_enrolled_users():
+                print(f'{user[0]}: [{score}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{score}]', colour=discord.Color.dark_teal())
                 await channel.send(embed = embed_message)
             await bot.close()
