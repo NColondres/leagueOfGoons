@@ -47,7 +47,7 @@ def enroll_user(discord_account: str, discord_id: str, league_account: str, leag
 def get_enrolled_user(discord_account: str):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
-    cur.execute("SELECT * FROM players WHERE discord_account=(:discord_account)", {'discord_account': str(discord_account)})
+    cur.execute("SELECT * FROM players WHERE discord_account=(:discord_account) ORDER BY score DESC", {'discord_account': str(discord_account)})
     return cur.fetchall()
 
 def get_enrolled_users():
