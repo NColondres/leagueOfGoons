@@ -7,6 +7,7 @@ from discord.ext import commands, tasks
 from src import league, database
 import time
 import asyncio
+import pathlib
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
@@ -143,6 +144,8 @@ async def results():
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
             await bot.close()
+            db_file = pathlib.Path(f'./src/database/{database.PLAYERS_DATABASE}')
+            db_file.unlink()
                 
                                 
             
