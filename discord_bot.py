@@ -6,6 +6,7 @@ from dotenv import dotenv_values
 from discord.ext import commands, tasks
 from src import league, database
 import time
+import asyncio
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
@@ -119,6 +120,7 @@ async def results():
             print(f'All users have completed their {database.AMOUNT_OF_GAMES} games\n')
             embed_message = discord.Embed(title='TOURNAMENT ENDED\nANNOUNCING SCORES', colour=discord.Color.dark_teal())
             await channel.send(embed = embed_message)
+            await asyncio.sleep(3)
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
                 score = 0
@@ -139,6 +141,7 @@ async def results():
                 print(f'{user[0]}: [{score}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{score}]', colour=discord.Color.dark_teal())
                 await channel.send(embed = embed_message)
+                await asyncio.sleep(3)
             await bot.close()
                 
                                 
