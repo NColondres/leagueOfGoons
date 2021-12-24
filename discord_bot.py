@@ -135,7 +135,7 @@ async def results():
                         else:
                             score += int((kills + assists) * 100)
                     if win:
-                        score += 1000
+                        score += 500
                 database.update_score_by_user(user[1], score)
             for user in database.get_enrolled_users():
                 print(f'{user[0]}: [{score}]')
