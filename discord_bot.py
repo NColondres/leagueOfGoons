@@ -139,7 +139,7 @@ async def results():
                 database.update_score_by_user(user[1], score)
             for user in database.get_enrolled_users():
                 print(f'{user[0]}: [{user[5]}]')
-                embed_message = discord.Embed(title=f'{user[0]}: [{score}]', colour=discord.Color.dark_teal())
+                embed_message = discord.Embed(title=f'{user[0]}: [{user[5]}]', colour=discord.Color.dark_teal())
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
             await bot.close()
