@@ -11,7 +11,7 @@ import pathlib
 
 BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
-TASK_TIMER = 5
+TASK_TIMER = 45
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
 @bot.event
