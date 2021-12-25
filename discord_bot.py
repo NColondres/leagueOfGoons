@@ -125,17 +125,22 @@ async def results():
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
                 score = 0
+                total_kills = 0
+                total_deaths = 0
+                total_assists = 0
+                total_wins = 0
                 for match in complete_user_matches:
-                    kills = match[0]
-                    deaths = match[1]
-                    assists = match[2]
+                    total_kills += match[0]
+                    total_deaths += match[1]
+                    total_assists += match[2]
                     win = match[3]
-                    if (kills + assists) > 0:
-                        if deaths > 0:
-                            score += int(((kills + assists) / deaths) * 100)
+                    if (match[0] + match[2]) > 0:
+                        if match[1] > 0:
+                            score += int(((match[0] + match[2]) / match[1]) * 100)
                         else:
-                            score += int((kills + assists) * 100)
+                            score += int((match[0] + match[2]) * 100)
                     if win:
+                        total_wins += 1
                         score += 500
                 database.update_score_by_user(user[1], score)
             for user in database.get_enrolled_users():
