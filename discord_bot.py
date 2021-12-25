@@ -130,11 +130,12 @@ async def results():
                     deaths = match[1]
                     assists = match[2]
                     win = match[3]
-                    if (kills + assists) / deaths >= 1:
-                        if deaths > 0:
-                            score += int(((kills + assists) / deaths) * 100)
-                        else:
-                            score += int((kills + assists) * 100)
+                    if (kills + assists) > 0:
+                        if (kills + assists) / deaths >= 1:
+                            if deaths > 0:
+                                score += int(((kills + assists) / deaths) * 100)
+                            else:
+                                score += int((kills + assists) * 100)
                     if win:
                         score += 500
                 database.update_score_by_user(user[1], score)
