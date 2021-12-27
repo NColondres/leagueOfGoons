@@ -138,7 +138,7 @@ async def results():
                     total_deaths += match[1]
                     total_assists += match[2]
                     win = match[3]
-                    if (match[0] + match[2]) > 0:
+                    if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
                             score += int(((match[0] + match[2]) / match[1]) * 100)
                         else:
