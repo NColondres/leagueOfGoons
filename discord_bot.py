@@ -49,7 +49,7 @@ async def enrolled(ctx):
         message = discord.Embed(title='Enrolled Players', description='You can enroll by typing "!enroll <Your Summoner Name>"', colour=discord.Color.dark_teal())
         for user in range(len(all_users)):
             if all_users[user][6]:
-                complete_status = all_users[user][2] + '(Complete)'
+                complete_status = all_users[user][2] + ' (Completed)'
                 print(complete_status)
                 message.add_field(name=all_users[user][0], value=complete_status)
             else:
