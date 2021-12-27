@@ -51,7 +51,7 @@ async def enrolled(ctx):
             complete_status = ''
             if user[6]:
                 complete_status = '(Complete)'
-            message.add_field(name=all_users[user][0], value=all_users[user][2] + complete_status)
+            message.add_field(name=all_users[user][0], value=(all_users[user][2] + complete_status))
         await ctx.send(embed=message)   
     else:
         await ctx.reply('Nobody is enrolled yet\nCalm your horses')
