@@ -126,13 +126,13 @@ async def results():
             embed_message = discord.Embed(title='TOURNAMENT ENDED\nANNOUNCING SCORES', colour=discord.Color.dark_teal())
             await channel.send(embed = embed_message)
             await asyncio.sleep(3)
+            score = 0
+            total_kills = 0
+            total_deaths = 0
+            total_assists = 0
+            total_wins = 0
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
-                score = 0
-                total_kills = 0
-                total_deaths = 0
-                total_assists = 0
-                total_wins = 0
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
@@ -150,6 +150,10 @@ async def results():
             for user in database.get_enrolled_users():
                 print(f'{user[0]}: [{user[5]}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{user[5]}]', colour=discord.Color.dark_teal())
+                embed_message.add_field(name='Total Kills', value=total_kills)
+                embed_message.add_field(name='Total Deaths', value=total_deaths)
+                embed_message.add_field(name='Total Assists', value=total_assists)
+                embed_message.add_field(name='Total Wins', value=total_wins)
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
             await bot.close()
