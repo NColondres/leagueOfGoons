@@ -50,7 +50,6 @@ async def enrolled(ctx):
         for user in range(len(all_users)):
             if all_users[user][6]:
                 complete_status = all_users[user][2] + ' (Completed)'
-                print(complete_status)
                 message.add_field(name=all_users[user][0], value=complete_status)
             else:
                 message.add_field(name=all_users[user][0], value=all_users[user][2])
