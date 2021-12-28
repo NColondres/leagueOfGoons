@@ -96,8 +96,8 @@ async def results():
                     for match in matches:
                         print(match)
                         match_info = league.get_match_info(match)
-                        time.sleep(1)
-                        if match_info['info']['gameMode'] == 'CLASSIC':
+                        await asyncio.sleep(1)
+                        if match_info['info']['gameMode'] == 'CLASSIC' and match_info['info']['gameDuration'] >= 720:
                             for participant in match_info['info']['participants']:
                                 if participant['puuid'] == user_puuid:
                                     print('Game Ended Unix Timestamp in Seconds:', int((match_info['info']['gameEndTimestamp']) / 1000) + 10)
@@ -112,7 +112,7 @@ async def results():
                             print('Match not a Classic game\n')
                     last_match = int((league.get_match_info(matches[0])['info']['gameEndTimestamp'] / 1000) + 10)
                     database.update_last_match(user[1], last_match)
-                    time.sleep(1)
+                    await asyncio.sleep(1)
                 if complete_user(user):
                     tournament_complete_count += 1
 
@@ -146,14 +146,14 @@ async def results():
                     if win:
                         total_wins += 1
                         score += 500
-                database.update_score_by_user(user[1], score)
+                database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins)
             for user in database.get_enrolled_users():
                 print(f'{user[0]}: [{user[5]}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{user[5]}]', colour=discord.Color.dark_teal())
-                # embed_message.add_field(name='Total Kills', value=total_kills)
-                # embed_message.add_field(name='Total Deaths', value=total_deaths)
-                # embed_message.add_field(name='Total Assists', value=total_assists)
-                # embed_message.add_field(name='Total Wins', value=total_wins)
+                embed_message.add_field(name='Total Kills', value=user[7])
+                embed_message.add_field(name='Total Deaths', value=user[8])
+                embed_message.add_field(name='Total Assists', value=user[9])
+                embed_message.add_field(name='Total Wins', value=user[10])
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
             await bot.close()

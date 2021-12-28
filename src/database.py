@@ -16,7 +16,11 @@ def create_database(name: str):
                 league_puuid text UNIQUE,
                 last_match INTEGER,
                 score INTEGER DEFAULT 0,
-                complete_status INTEGER DEFAULT 0 NOT NULL);
+                complete_status INTEGER DEFAULT 0 NOT NULL,
+                total_kills INTEGER,
+                total_deaths INTEGER,
+                total_assists INTEGER,
+                total_wins INTEGER);
                 ''')
     cur.execute('''CREATE TABLE IF NOT EXISTS matches(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -112,16 +116,25 @@ def update_complete_status_by_user(discord_id, status: int):
     con.commit()
     con.close()
 
-def update_score_by_user(discord_id, score: int):
+def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths: int, total_assists: int, total_wins: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
                 UPDATE players
-                SET score = (:score)
-                WHERE discord_id = (:discord_id)
+                SET score = :score,
+                    total_kills = :total_kills,
+                    total_deaths = :total_deaths,
+                    total_deaths = :total_deaths,
+                    total_assists = :total_assists,
+                    total_wins = :total_wins
+                WHERE discord_id = :discord_id
                 ''', {
                     'discord_id': discord_id,
-                    'score': score
+                    'score': score,
+                    'total_kills': total_kills,
+                    'total_deaths': total_deaths,
+                    'total_assists': total_assists,
+                    'total_wins': total_wins
                 })
     con.commit()
     con.close()
