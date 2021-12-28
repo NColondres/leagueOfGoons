@@ -97,7 +97,7 @@ async def results():
                         print(match)
                         match_info = league.get_match_info(match)
                         await asyncio.sleep(1)
-                        if match_info['info']['gameMode'] == 'CLASSIC' and match_info['info']['gameDuration'] >= 720:
+                        if match_info['info']['gameMode'] == 'CLASSIC' and match_info['info']['gameDuration'] >= 600:
                             for participant in match_info['info']['participants']:
                                 if participant['puuid'] == user_puuid:
                                     print('Game Ended Unix Timestamp in Seconds:', int((match_info['info']['gameEndTimestamp']) / 1000) + 10)
