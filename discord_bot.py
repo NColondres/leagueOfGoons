@@ -56,9 +56,9 @@ async def enrolled(ctx):
         for user in range(len(all_users)):
             if all_users[user][6]:
                 complete_status = all_users[user][2] + ' (Completed)'
-                message.add_field(name=all_users[user][0], value=complete_status)
+                message.add_field(name=all_users[user][0], value=complete_status, inline=False)
             else:
-                message.add_field(name=all_users[user][0], value=all_users[user][2])
+                message.add_field(name=all_users[user][0], value=all_users[user][2], inline=False)
         await ctx.send(embed=message)   
     else:
         await ctx.reply('Nobody is enrolled yet\nCalm your horses')
@@ -70,7 +70,7 @@ async def unenroll(ctx):
 @bot.command()
 async def rules(ctx):
     embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games.\nBelow is the point system.', colour=discord.Color.dark_teal())
-    embed_message.add_field(name='Wins', value=str(WINS_POINTS), inline=False)
+    embed_message.add_field(name='Wins', value=f'{str(WINS_POINTS)} points', inline=False)
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
