@@ -13,10 +13,10 @@ ENV_VALUES = dotenv_values('.env')
 BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
-print(type(K_D_A_MULTIPLIER))
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
-print(type(WINS_POINTS))
 TASK_TIMER = 45
+
+
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
 @bot.event
