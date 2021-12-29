@@ -17,11 +17,11 @@ WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 45
 
-
-bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command. Use !rules to see the scoring system')
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands'
 )
+bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
+
 
 @bot.event
 async def on_command_error(ctx, error):
