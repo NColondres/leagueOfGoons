@@ -14,6 +14,7 @@ BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
+NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 45
 
 
@@ -65,6 +66,11 @@ async def enrolled(ctx):
 @bot.command()
 async def unenroll(ctx):
     await ctx.reply(database.unenroll_user(ctx.message.author.name))
+
+@bot.command()
+async def rules(ctx):
+    embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games\nBelow is the point system.', colour=discord.Color.dark_teal())
+    await ctx.send(embed = embed_message)
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
