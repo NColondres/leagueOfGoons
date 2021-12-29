@@ -9,8 +9,12 @@ import time
 import asyncio
 import pathlib
 
-BOT_TOKEN = dotenv_values(".env")['LEAGUE_OF_GOONS_BOT_TOKEN']
-DISCORD_CHANNEL = dotenv_values('.env')['DISCORD_CHANNEL']
+ENV_VALUES = dotenv_values('.env')
+print(ENV_VALUES)
+BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
+DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
+K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
+WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 TASK_TIMER = 45
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
@@ -140,12 +144,12 @@ async def results():
                     win = match[3]
                     if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
-                            score += int(((match[0] + match[2]) / match[1]) * 100)
+                            score += int(((match[0] + match[2]) / match[1]) * K_D_A_MULTIPLIER)
                         else:
-                            score += int((match[0] + match[2]) * 100)
+                            score += int((match[0] + match[2]) * K_D_A_MULTIPLIER)
                     if win:
                         total_wins += 1
-                        score += 500
+                        score += WINS_POINTS
                 database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins)
             for user in database.get_enrolled_users():
                 print(f'{user[0]}: [{user[5]}]')
