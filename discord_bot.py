@@ -18,7 +18,7 @@ NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 45
 
 help_command = commands.DefaultHelpCommand(
-    no_category = 'Commands'
+    no_category = 'Commands',
 )
 bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
 
@@ -28,7 +28,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
         await ctx.reply(f'WOAH THERE BESSIE\n{ctx.prefix}{ctx.invoked_with} is not a valid command')
 
-@bot.command()
+@bot.command(brief='Enrolls discord account with Summoner Name')
 async def enroll(ctx, *summoner_name: str):
     if summoner_name:
         combined_arguments = ' '.join(summoner_name)
@@ -50,7 +50,7 @@ async def enroll_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.reply('WOAH THERE BESSIE\nTo use the command type: !enroll <YourSummonerName>')
 
-@bot.command()
+@bot.command(brief='List all enrolled users')
 async def enrolled(ctx):
     response = database.get_enrolled_users()
     if response:
@@ -66,11 +66,11 @@ async def enrolled(ctx):
     else:
         await ctx.reply('Nobody is enrolled yet\nCalm your horses')
 
-@bot.command()
+@bot.command(brief='Removes you from the tournament')
 async def unenroll(ctx):
     await ctx.reply(database.unenroll_user(ctx.message.author.name))
 
-@bot.command()
+@bot.command(brief='How to use bot and explain points')
 async def rules(ctx):
     embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games.\nBelow is the point system.', colour=discord.Color.dark_teal())
     embed_message.add_field(name='Wins', value=f'{str(WINS_POINTS)} points', inline=False)
