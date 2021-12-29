@@ -69,7 +69,9 @@ async def unenroll(ctx):
 
 @bot.command()
 async def rules(ctx):
-    embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games\nBelow is the point system.', colour=discord.Color.dark_teal())
+    embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games.\nBelow is the point system.', colour=discord.Color.dark_teal())
+    embed_message.add_field(name='Wins', value=str(WINS_POINTS), inline=False)
+    embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
 def complete_user(user: tuple):
