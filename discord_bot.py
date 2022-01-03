@@ -16,7 +16,7 @@ LEAGUE_OF_GOONS_SERVER_ID = int(ENV_VALUES['LEAGUE_OF_GOONS_SERVER'])
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
-TASK_TIMER = 45
+TASK_TIMER = 10
 
 CROWN = ENV_VALUES['CROWN']
 POOP = ENV_VALUES['POOP']
@@ -33,12 +33,7 @@ bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This 
 
 @bot.event
 async def on_ready():
-    # print(server.owner, server.owner.id)
-    # for member in server.members:
-    #     if member.nick and member.id != server.owner.id:
-    #        await member.edit(nick=None)
-    print('Bot is online')
-    print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(301905280399048708).name)
+    print('Bot is ready')
 
 @bot.event
 async def on_command_error(ctx, error):
