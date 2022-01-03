@@ -38,7 +38,7 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
-        await ctx.reply(f'WOAH THERE BESSIE\n{ctx.prefix}{ctx.invoked_with} is not a valid command')
+        await ctx.reply(f'WOAH THERE BESSIE{POOP}\n{ctx.prefix}{ctx.invoked_with} is not a valid command')
 
 @bot.command(brief='Enrolls discord account with Summoner Name')
 async def enroll(ctx, *summoner_name: str):
