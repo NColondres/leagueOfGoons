@@ -33,7 +33,7 @@ async def on_ready():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     print(server)
     for member in server.members:
-        print(member.name, member.nick)
+        print(member.name, member.nick, member.id)
 
 @bot.event
 async def on_command_error(ctx, error):
