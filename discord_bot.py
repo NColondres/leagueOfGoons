@@ -137,7 +137,7 @@ async def results():
                 complete_user(user)
             
 
-        if tournament_complete_count == len(data):
+        if tournament_complete_count == len(data) and len(data) > 2:
             print(f'All users have completed their {database.AMOUNT_OF_GAMES} games\n')
             embed_message = discord.Embed(title='TOURNAMENT ENDED\nANNOUNCING SCORES', colour=discord.Color.dark_teal())
             await channel.send(embed = embed_message)
@@ -163,7 +163,12 @@ async def results():
                         total_wins += 1
                         score += WINS_POINTS
                 database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins)
-            for user in database.get_enrolled_users():
+
+            complete_users = database.get_enrolled_users()
+            database.insert_into_winner_loser(complete_users[0][0], complete_users[0][1], complete_users[0][5])
+            database.insert_into_winner_loser(complete_users[-1][0], complete_users[-1][1], complete_users[-1][5])
+
+            for user in complete_users:
                 print(f'{user[0]}: [{user[5]}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{user[5]}]', colour=discord.Color.dark_teal())
                 embed_message.add_field(name='Total Kills', value=user[7])
@@ -173,8 +178,7 @@ async def results():
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
             await bot.close()
-            # db_file = pathlib.Path(f'./src/database/{database.PLAYERS_DATABASE}')
-            # db_file.unlink()
+            database.clear_matches_and_players()
                 
                                 
             
