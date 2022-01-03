@@ -35,7 +35,7 @@ async def on_ready():
     #     if member.nick and member.id != server.owner.id:
     #        await member.edit(nick=None)
     print('Bot is online')
-    print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(301905280399048708))
+    print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(301905280399048708).name)
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -108,12 +108,24 @@ def complete_user(user: tuple):
     else:
         return False
 
-def remove_discord_nicknames():
+async def remove_discord_nicknames():
     current_winner_loser = database.get_winner_loser()
+    server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
         for player in current_winner_loser:
-            member = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(player[1])
-            member.edit(nick=None)
+            member = server.get_member(player[1])
+            if member.nick and member.id != server.owner.id:
+                await member.edit(nick=None)
+
+async def set_discord_nicknames():
+    current_winner_loser = database.get_winner_loser()
+    server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
+    if current_winner_loser:
+        for player in current_winner_loser:
+            member = server.get_member(player[1])
+            if member.id != server.owner.id:
+
+                await member.edit(nick=None)
 
 
 @tasks.loop(minutes = TASK_TIMER)
