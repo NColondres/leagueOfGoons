@@ -180,41 +180,23 @@ def insert_into_winner_loser(discord_account: str, discord_id: str, score: int):
     cur = con.cursor()
     if len(get_winner_loser()) > 1:
         delete_winner_loser()
-        cur.execute('''
-                    INSERT INTO winner_loser(
-                        discord_account,
-                        discord_id,
-                        score
-                    )
-                    VALUES(
-                        :discord_account,
-                        :discord_id,
-                        :score
+    cur.execute('''
+                INSERT INTO winner_loser(
+                    discord_account,
+                    discord_id,
+                    score
+                )
+                VALUES(
+                    :discord_account,
+                    :discord_id,
+                    :score
 
-                    );
-                    ''',{
-                        'discord_account': discord_account,
-                        'discord_id': str(discord_id),
-                        'score': int(score)                    
-                    })
-    else:
-        cur.execute('''
-                    INSERT INTO winner_loser(
-                        discord_account,
-                        discord_id,
-                        score
-                    )
-                    VALUES(
-                        :discord_account,
-                        :discord_id,
-                        :score
-
-                    );
-                    ''',{
-                        'discord_account': discord_account,
-                        'discord_id': str(discord_id),
-                        'score': int(score)                    
-                    })
+                );
+                ''',{
+                    'discord_account': discord_account,
+                    'discord_id': str(discord_id),
+                    'score': int(score)                    
+                })
     con.commit()
     con.close()
 
