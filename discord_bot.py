@@ -33,6 +33,8 @@ async def on_ready():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     print(server)
     for member in server.members:
+        if member.nick:
+           member.nick = None 
         print(member.name, member.nick, member.id)
 
 @bot.event
@@ -190,7 +192,6 @@ async def results():
                 embed_message.add_field(name='Total Wins', value=user[10])
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
-            await bot.close()
             database.clear_matches_and_players()
                 
                                 
