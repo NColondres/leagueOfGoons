@@ -12,6 +12,7 @@ import pathlib
 ENV_VALUES = dotenv_values('.env')
 BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
+LEAGUE_OF_GOONS_SERVER_ID = int(ENV_VALUES['LEAGUE_OF_GOONS_SERVER'])
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
@@ -22,7 +23,7 @@ help_command = commands.DefaultHelpCommand(
 )
 bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
 
-print(bot.get_all_members().send(20))
+print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID))
 
 @bot.event
 async def on_command_error(ctx, error):
