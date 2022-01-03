@@ -34,6 +34,12 @@ def create_database(name: str):
                 match_end_timestamp INTEGER NOT NULL,
                 FOREIGN KEY(player_id) REFERENCES players(discord_id)
                 );''')
+    cur.execute('''
+                CREATE TABLE IF NOT EXISTS winner_loser(
+                discord_account TEXT,
+                discord_id TEXT PRIMARY KEY,
+                score INTEGER);
+    ''')
     con.commit()
     con.close()
 
@@ -135,6 +141,43 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     'total_deaths': total_deaths,
                     'total_assists': total_assists,
                     'total_wins': total_wins
+                })
+    con.commit()
+    con.close()
+
+def clear_matches_and_players():
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                DELETE
+                FROM matches;
+    ''')
+    cur.execute('''
+                DELETE
+                FROM players;
+    ''')
+    con.commit()
+    con.close()
+
+def insert_into_winner_loser(discord_account: str, discord_id: str, score: int):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                INSERT INTO winner_loser(
+                    discord_account,
+                    discord_id,
+                    score
+                )
+                VALUES(
+                    :discord_account,
+                    :discord_id,
+                    :score
+
+                );
+                ''',{
+                    'discord_account': discord_account,
+                    'discord_id': str(discord_id),
+                    'score': int(score)                    
                 })
     con.commit()
     con.close()
