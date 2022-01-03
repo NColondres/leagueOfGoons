@@ -25,7 +25,10 @@ bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This 
 
 @bot.event
 async def on_ready():
-    print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID))
+    server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
+    print(server)
+    print(server.members)
+    print(server.owner)
 
 @bot.event
 async def on_command_error(ctx, error):
