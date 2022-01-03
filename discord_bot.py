@@ -34,7 +34,7 @@ async def on_ready():
     print(server)
     for member in server.members:
         if member.nick:
-           member.nick = None 
+           await member.edit(nick=None) 
         print(member.name, member.nick, member.id)
 
 @bot.event
