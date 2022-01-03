@@ -18,6 +18,9 @@ WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 45
 
+CROWN = ENV_VALUES['CROWN']
+POOP = ENV_VALUES['POOP']
+
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands',
 )
@@ -121,12 +124,14 @@ async def set_discord_nicknames():
     current_winner_loser = database.get_winner_loser()
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
-        for player in current_winner_loser:
-            member = server.get_member(player[1])
-            if member.id != server.owner.id:
-
-                await member.edit(nick=None)
-
+        member1 = server.get_member(current_winner_loser[0][1])
+        if member1.id != server.owner.id:
+            new_nick = CROWN + member1.name + CROWN
+            await member1.edit(nick=new_nick)
+        member2 = server.get_member(current_winner_loser[1][1])
+        if member2.id != server.owner.id:
+            new_nick = POOP + member2.name + POOP
+            await member2.edit(nick=new_nick)
 
 @tasks.loop(minutes = TASK_TIMER)
 async def results():
@@ -199,8 +204,10 @@ async def results():
                 database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins)
 
             complete_users = database.get_enrolled_users()
+            await remove_discord_nicknames()
             database.insert_into_winner_loser(complete_users[0][0], complete_users[0][1], complete_users[0][5])
             database.insert_into_winner_loser(complete_users[-1][0], complete_users[-1][1], complete_users[-1][5])
+            await set_discord_nicknames()
 
             for user in complete_users:
                 print(f'{user[0]}: [{user[5]}]')
