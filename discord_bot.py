@@ -22,6 +22,7 @@ help_command = commands.DefaultHelpCommand(
 )
 bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
 
+print(bot.get_all_members())
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -72,7 +73,8 @@ async def unenroll(ctx):
 
 @bot.command(brief='How to use bot and explain points')
 async def rules(ctx):
-    embed_message = discord.Embed(title='Rules:', description=f'Enroll by typing "!enroll <Your Summoner Name>"\nOnce enrolled, you must play a total of {NUMBER_OF_MATCHES} games.\nBelow is the point system.', colour=discord.Color.dark_teal())
+    embed_message = discord.Embed(title='Rules:', description=f'Join by typing "!enroll <Your Summoner Name>"', colour=discord.Color.dark_teal())
+    embed_message.add_field(name='GAMES REQUIRED', value=f'[{NUMBER_OF_MATCHES}]')
     embed_message.add_field(name='Wins', value=f'{str(WINS_POINTS)} points', inline=False)
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
