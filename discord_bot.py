@@ -35,7 +35,7 @@ async def on_ready():
     for member in server.members:
         if member.nick and member.top_role.name != '@Admin':
            await member.edit(nick=None) 
-        print(member.name, member.nick, member.id, member.roles)
+        print(member.name, member.nick, member.id, member.top_role.name)
 
 @bot.event
 async def on_command_error(ctx, error):
