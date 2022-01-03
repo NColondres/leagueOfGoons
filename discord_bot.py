@@ -21,7 +21,12 @@ TASK_TIMER = 45
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands',
 )
-bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
+
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command, intents=intents)
+
+
 
 @bot.event
 async def on_ready():
