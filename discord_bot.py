@@ -33,7 +33,7 @@ async def on_ready():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     print(server)
     for member in server.members:
-        if member.nick and member.top_role.name != '@Admin':
+        if member.nick and (member.top_role.name != '@Admin' or member.id == server.owner.id):
            await member.edit(nick=None) 
         print(member.name, member.nick, member.id, member.top_role.name)
 
