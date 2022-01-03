@@ -22,7 +22,7 @@ help_command = commands.DefaultHelpCommand(
 )
 bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This bot is used to host a tournament amongst those who have enrolled using the !enroll command.\nUse !rules to see the scoring system', help_command=help_command)
 
-print(bot.get_all_members())
+print(bot.get_all_members().send(20))
 
 @bot.event
 async def on_command_error(ctx, error):
