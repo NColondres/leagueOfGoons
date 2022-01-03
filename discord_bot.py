@@ -30,13 +30,12 @@ bot = commands.Bot(command_prefix='!', case_insensitive=True, description='This 
 
 @bot.event
 async def on_ready():
-    server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     # print(server.owner, server.owner.id)
     # for member in server.members:
     #     if member.nick and member.id != server.owner.id:
     #        await member.edit(nick=None)
     print('Bot is online')
-    print(server.get_member(301905280399048708))
+    print(bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(301905280399048708))
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -112,7 +111,9 @@ def complete_user(user: tuple):
 def remove_discord_nicknames():
     current_winner_loser = database.get_winner_loser()
     if current_winner_loser:
-        pass
+        for player in current_winner_loser:
+            member = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID).get_member(player[1])
+            member.edit(nick=None)
 
 
 @tasks.loop(minutes = TASK_TIMER)
