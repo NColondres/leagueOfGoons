@@ -111,6 +111,7 @@ async def remove_discord_nicknames():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
         for player in current_winner_loser:
+            print(player)
             member = server.get_member(player[1])
             print(member)
             if member.nick and member.id != server.owner.id:
