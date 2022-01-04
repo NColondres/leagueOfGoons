@@ -172,7 +172,7 @@ async def results():
                 complete_user(user)
             
 
-        if tournament_complete_count == len(data) and len(data) > 1:
+        if tournament_complete_count == len(data) and len(data) > 2:
             print(f'All users have completed their {database.AMOUNT_OF_GAMES} games\n')
             embed_message = discord.Embed(title='TOURNAMENT ENDED\nANNOUNCING SCORES', colour=discord.Color.dark_teal())
             await channel.send(embed = embed_message)
