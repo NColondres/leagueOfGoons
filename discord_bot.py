@@ -112,7 +112,7 @@ async def remove_discord_nicknames():
     if current_winner_loser:
         for player in current_winner_loser:
             print(player)
-            member = server.get_member(player[1])
+            member = server.get_member(int(player[1]))
             print(member)
             if member.nick and member.id != server.owner.id:
                 await member.edit(nick=None)
@@ -121,12 +121,12 @@ async def set_discord_nicknames():
     current_winner_loser = database.get_winner_loser()
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
-        member1 = server.get_member(current_winner_loser[0][1])
+        member1 = server.get_member(int(current_winner_loser[0][1]))
         print(member1)
         if member1.id != server.owner.id:
             new_nick = CROWN + member1.name + CROWN
             await member1.edit(nick=new_nick)
-        member2 = server.get_member(current_winner_loser[1][1])
+        member2 = server.get_member(int(current_winner_loser[1][1]))
         if member2.id != server.owner.id:
             new_nick = POOP + member2.name + POOP
             await member2.edit(nick=new_nick)
