@@ -205,7 +205,16 @@ async def results():
             database.insert_into_winner_loser(complete_users[-1][0], complete_users[-1][1], complete_users[-1][5])
             await set_discord_nicknames()
 
-            for user in complete_users:
+            # Sends embeded message to the discord channel with Crowns for the winners and Poop emojis for the loser.
+            print(f'{complete_users[0][0]}: [{complete_users[0][5]}]')
+            embed_message = discord.Embed(title=f'{CROWN}{complete_users[0][0]}{CROWN}: [{complete_users[0][5]}]', colour=discord.Color.dark_teal())
+            embed_message.add_field(name='Total Kills', value=complete_users[0][7])
+            embed_message.add_field(name='Total Deaths', value=complete_users[0][8])
+            embed_message.add_field(name='Total Assists', value=complete_users[0][9])
+            embed_message.add_field(name='Total Wins', value=complete_users[0][10])
+            await channel.send(embed = embed_message)
+            await asyncio.sleep(3)
+            for user in complete_users[1:-1]:
                 print(f'{user[0]}: [{user[5]}]')
                 embed_message = discord.Embed(title=f'{user[0]}: [{user[5]}]', colour=discord.Color.dark_teal())
                 embed_message.add_field(name='Total Kills', value=user[7])
@@ -214,6 +223,16 @@ async def results():
                 embed_message.add_field(name='Total Wins', value=user[10])
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
+            print(f'{complete_users[-1][0]}: [{complete_users[-1][5]}]')
+            embed_message = discord.Embed(title=f'{POOP}{complete_users[-1][0]}{POOP}: [{complete_users[-1][5]}]', colour=discord.Color.dark_teal())
+            embed_message.add_field(name='Total Kills', value=complete_users[-1][7])
+            embed_message.add_field(name='Total Deaths', value=complete_users[-1][8])
+            embed_message.add_field(name='Total Assists', value=complete_users[-1][9])
+            embed_message.add_field(name='Total Wins', value=complete_users[-1][10])
+            await channel.send(embed = embed_message)
+            await asyncio.sleep(3)
+
+            # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
                 
                                 
