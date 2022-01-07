@@ -98,7 +98,7 @@ async def kick(ctx, member: discord.Member = None):
     else:
         discord_account = database.get_enrolled_user(member.name)
         if discord_account:
-            await ctx.reply(discord_account[0][0])
+            await ctx.reply(database.unenroll_user(discord_account[0][0]))
         else:
             await ctx.reply(f'{member.name} is not enrolled')
 
