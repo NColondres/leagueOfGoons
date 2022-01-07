@@ -94,13 +94,10 @@ async def rules(ctx):
 @commands.has_permissions(kick_members=True)
 async def test(ctx, member: discord.Member):
     print(type(member))
-    try:
-        if member == None:
-            await ctx.reply(f'Member does not exists')
-        else:
-            await ctx.reply(member.name)
-    except:
-        await ctx.reply('Something went wrong')
+    if member == None
+        await ctx.reply(f'Member does not exists')
+    else:
+        await ctx.reply(member.name)
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
