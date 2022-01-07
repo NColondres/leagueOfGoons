@@ -90,7 +90,7 @@ async def rules(ctx):
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
-@bot.command(brief= 'Only server admins can use this command')
+@bot.command(brief= '@mention the user you would like to kick. Admin use only')
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member = None):
     print(type(member))
