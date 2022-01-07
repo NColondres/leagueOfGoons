@@ -94,9 +94,7 @@ async def rules(ctx):
 @commands.has_permissions(kick_members=True)
 async def test(ctx, member: discord.Member = None):
     if member:
-        await ctx.reply(member)
-    else:
-        await ctx.reply(f'{ctx.args} not a member in the discord')
+        await ctx.reply(member.name)
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
