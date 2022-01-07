@@ -94,7 +94,7 @@ async def rules(ctx):
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member = None):
     if member == None:
-        await ctx.reply(f'Member does not exists')
+        await ctx.reply(f'Must @mention someone on this server')
     else:
         discord_account = database.get_enrolled_user(member.name)
         if discord_account:
