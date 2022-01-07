@@ -90,6 +90,11 @@ async def rules(ctx):
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
+@bot.command(brief= 'Only server admins can use this command')
+@commands.has_permissions(kick_members=True)
+async def test(ctx):
+    ctx.reply('It worked')
+
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
     if len(user_matches) >= database.AMOUNT_OF_GAMES:
@@ -128,6 +133,7 @@ async def set_discord_nicknames():
         if member2.id != server.owner.id:
             new_nick = POOP + member2.name + POOP
             await member2.edit(nick=new_nick)
+
 
 @tasks.loop(minutes = TASK_TIMER)
 async def results():
