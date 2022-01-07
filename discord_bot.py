@@ -93,7 +93,10 @@ async def rules(ctx):
 @bot.command(brief= 'Only server admins can use this command')
 @commands.has_permissions(kick_members=True)
 async def test(ctx, member: discord.Member = None):
-    await ctx.reply(member)
+    if member:
+        await ctx.reply(member)
+    else:
+        await ctx.reply(f'{ctx.args} not a member in the discord')
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
