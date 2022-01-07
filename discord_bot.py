@@ -93,6 +93,7 @@ async def rules(ctx):
 @bot.command(brief= 'Only server admins can use this command')
 @commands.has_permissions(kick_members=True)
 async def test(ctx, member: discord.Member = None):
+    print(type(member))
     if member == None:
         await ctx.reply(f'Member does not exists')
     else:
