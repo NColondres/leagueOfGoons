@@ -93,7 +93,7 @@ async def rules(ctx):
 @bot.command(brief= 'Only server admins can use this command')
 @commands.has_permissions(kick_members=True)
 async def test(ctx):
-    ctx.reply('It worked')
+    await ctx.reply('It worked')
 
 def complete_user(user: tuple):
     user_matches = database.get_matches_by_user(user[1])
