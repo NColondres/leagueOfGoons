@@ -93,6 +93,9 @@ async def rules(ctx):
 @bot.command(brief= 'Only server admins can use this command')
 @commands.has_permissions(kick_members=True)
 async def test(ctx, member: discord.Member = None):
+    if member == None:
+        await ctx.reply(f'Member does not exists')
+    else:
         await ctx.reply(member.name)
 
 def complete_user(user: tuple):
