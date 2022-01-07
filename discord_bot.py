@@ -97,7 +97,7 @@ async def kick(ctx, member: discord.Member = None):
     if member == None:
         await ctx.reply(f'Member does not exists')
     else:
-        await ctx.reply(member.name)
+        await ctx.reply(database.get_enrolled_user(member.name))
 
 @kick.error
 async def kick_error(ctx, error):
