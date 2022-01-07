@@ -93,7 +93,6 @@ async def rules(ctx):
 @bot.command(brief= '@mention the user you would like to kick. Admin use only')
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member = None):
-    print(type(member))
     if member == None:
         await ctx.reply(f'Member does not exists')
     else:
