@@ -137,7 +137,6 @@ async def set_discord_nicknames():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
         member1 = server.get_member(int(current_winner_loser[0][1]))
-        print(member1)
         if member1.id != server.owner.id:
             new_nick = CROWN + member1.name + CROWN
             await member1.edit(nick=new_nick)
