@@ -72,7 +72,7 @@ def unenroll_user(discord_account: str):
     cur.execute("DELETE FROM players WHERE discord_account=(:discord_account)", {'discord_account': str(discord_account)})
     con.commit()
     con.close()
-    return 'You have been unerolled'
+    return f'{discord_account} been unerolled'
 
 def insert_match(match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
