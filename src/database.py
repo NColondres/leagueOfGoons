@@ -20,7 +20,11 @@ def create_database(name: str):
                 total_kills INTEGER,
                 total_deaths INTEGER,
                 total_assists INTEGER,
-                total_wins INTEGER);
+                total_wins INTEGER,
+                total_barons INTEGER,
+                total_dragons INTEGER,
+                total_turrets INTEGER,
+                matches_completed INTEGER DEFAULT 0 NOT NULL);
                 ''')
     cur.execute('''CREATE TABLE IF NOT EXISTS matches(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,8 +36,10 @@ def create_database(name: str):
                 champion TEXT,
                 win INTEGER,
                 match_end_timestamp INTEGER NOT NULL,
-                FOREIGN KEY(player_id) REFERENCES players(discord_id)
-                );''')
+                barons INTEGER,
+                dragons INTEGER,
+                turrets INTEGER,
+                FOREIGN KEY(player_id) REFERENCES players(discord_id));''')
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS winner_loser(
                 discord_account TEXT,
@@ -74,12 +80,12 @@ def unenroll_user(discord_account: str):
     con.close()
     return f'{discord_account} has been unerolled'
 
-def insert_match(match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp):
+def insert_match(match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp)
-    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion, 'win': win, 'match_end_timestamp': match_end_timestamp})
+                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp, :barons, :dragons, :turrets)
+    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion, 'win': win, 'match_end_timestamp': match_end_timestamp, 'barons': barons, 'dragons': dragons, 'turrets': turrets})
     con.commit()
     con.close()
     return f'{match_id} added'
@@ -141,6 +147,19 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     'total_deaths': total_deaths,
                     'total_assists': total_assists,
                     'total_wins': total_wins
+                })
+    con.commit()
+    con.close()
+
+def update_matches_completed_by_user(discord_id):
+    con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
+    cur = con.cursor()
+    cur.execute('''
+                UPDATE players
+                SET matches_completed = matches_completed + 1
+                WHERE discord_id = :discord_id
+                ''', {
+                    'discord_id': str(discord_id)
                 })
     con.commit()
     con.close()

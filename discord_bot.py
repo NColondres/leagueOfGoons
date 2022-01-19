@@ -16,7 +16,7 @@ LEAGUE_OF_GOONS_SERVER_ID = int(ENV_VALUES['LEAGUE_OF_GOONS_SERVER'])
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
-TASK_TIMER = 30
+TASK_TIMER = 5 #Number of minutes (Integer only)
 
 CROWN = ENV_VALUES['CROWN']
 POOP = ENV_VALUES['POOP']
@@ -73,7 +73,8 @@ async def enrolled(ctx):
                 complete_status = all_users[user][2] + ' (Completed)'
                 message.add_field(name=all_users[user][0], value=complete_status)
             else:
-                message.add_field(name=all_users[user][0], value=all_users[user][2])
+                user_status = f'{all_users[user][2]} [{all_users[user][14]}]'
+                message.add_field(name=all_users[user][0], value=user_status)
         await ctx.send(embed=message)   
     else:
         await ctx.reply('Nobody is enrolled yet\nCalm your horses')
@@ -174,8 +175,12 @@ async def results():
                                     print('Assists:', participant['assists'])
                                     print('Champion:', participant['championName'])
                                     print('Win:', participant['win'])
-                                    database.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000))
+                                    print('Baron Kills:', participant['baronKills'])
+                                    print('Dragon Kills:', participant['dragonKills'])
+                                    print('Turrets:', participant['turretTakedowns'])
+                                    print(database.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000), participant['baronKills'], participant['dragonKills'], participant['turretTakedowns']))
                                     print()
+                                    database.update_matches_completed_by_user(user[1])
                         else:
                             print('Match not a Classic game\n')
                     last_match = int((league.get_match_info(matches[0])['info']['gameEndTimestamp'] / 1000) + 10)
