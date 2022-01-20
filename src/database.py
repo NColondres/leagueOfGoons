@@ -94,7 +94,7 @@ def get_matches_by_user(discord_id):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                SELECT kills, deaths, assists, win FROM matches
+                SELECT kills, deaths, assists, win, barons, dragons, turrets FROM matches
                 WHERE player_id = (:discord_id)
                 ORDER BY match_end_timestamp ASC
                 ''', {'discord_id': str(discord_id)})
@@ -128,7 +128,7 @@ def update_complete_status_by_user(discord_id, status: int):
     con.commit()
     con.close()
 
-def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths: int, total_assists: int, total_wins: int):
+def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths: int, total_assists: int, total_wins: int, total_barons: int, total_dragons: int, total_turrets: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
@@ -138,7 +138,11 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     total_deaths = :total_deaths,
                     total_deaths = :total_deaths,
                     total_assists = :total_assists,
-                    total_wins = :total_wins
+                    total_wins = :total_wins,
+                    total_barons = :total_barons,
+                    total_dragons = :total_dragons,
+                    total_turrets = :total_turrets
+
                 WHERE discord_id = :discord_id
                 ''', {
                     'discord_id': discord_id,
@@ -146,7 +150,11 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     'total_kills': total_kills,
                     'total_deaths': total_deaths,
                     'total_assists': total_assists,
-                    'total_wins': total_wins
+                    'total_wins': total_wins,
+                    'total_barons': total_barons,
+                    'total_dragons': total_dragons,
+                    'total_turrets': total_turrets
+
                 })
     con.commit()
     con.close()

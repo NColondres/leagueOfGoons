@@ -14,6 +14,9 @@ BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
 DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
 LEAGUE_OF_GOONS_SERVER_ID = int(ENV_VALUES['LEAGUE_OF_GOONS_SERVER'])
 K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
+BARON_MULTIPLIER = int(ENV_VALUES['BARON_MULTIPLIER'])
+DRAGON_MULTIPLIER = int(ENV_VALUES['DRAGON_MULTIPLIER'])
+TURRET_MULTIPLIER = int(ENV_VALUES['TURRET_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 5 #Number of minutes (Integer only)
@@ -206,11 +209,17 @@ async def results():
                 total_deaths = 0
                 total_assists = 0
                 total_wins = 0
+                total_barons = 0
+                total_dragons = 0
+                total_turrets = 0
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
                     total_assists += match[2]
                     win = match[3]
+                    total_barons += match[4]
+                    total_dragons += match[5]
+                    total_turrets += match[6]
                     if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
                             score += int(((match[0] + match[2]) / match[1]) * K_D_A_MULTIPLIER)
@@ -219,7 +228,10 @@ async def results():
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
-                database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins)
+                score += total_barons * BARON_MULTIPLIER
+                score += total_dragons * DRAGON_MULTIPLIER
+                score += total_turrets * TURRET_MULTIPLIER
+                database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins, total_barons, total_dragons, total_turrets)
 
             complete_users = database.get_enrolled_users()
             await remove_discord_nicknames()
@@ -233,6 +245,9 @@ async def results():
             embed_message.add_field(name='Total Kills', value=complete_users[0][7])
             embed_message.add_field(name='Total Deaths', value=complete_users[0][8])
             embed_message.add_field(name='Total Assists', value=complete_users[0][9])
+            embed_message.add_field(name='Total Barons', value=complete_users[0][11])
+            embed_message.add_field(name='Total Dragons', value=complete_users[0][12])
+            embed_message.add_field(name='Total Turrets', value=complete_users[0][13])
             embed_message.add_field(name='Total Wins', value=complete_users[0][10])
             await channel.send(embed = embed_message)
             await asyncio.sleep(3)
