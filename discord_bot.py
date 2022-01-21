@@ -93,9 +93,9 @@ async def rules(ctx):
     embed_message.add_field(name='GAMES REQUIRED', value=f'[{NUMBER_OF_MATCHES}]')
     embed_message.add_field(name='Win', value=f'{str(WINS_POINTS)} points', inline=False)
     embed_message.add_field(name='Baron', value=f'{str(BARON_MULTIPLIER)} points', inline=False)
+    embed_message.add_field(name='Inhib', value=f'{str(INHIB_MULTIPLIER)} points', inline=False)
     embed_message.add_field(name='Dragon', value=f'{str(DRAGON_MULTIPLIER)} points', inline=False)
     embed_message.add_field(name='Turret', value=f'{str(TURRET_MULTIPLIER)} points', inline=False)
-    embed_message.add_field(name='Inhib', value=f'{str(INHIB_MULTIPLIER)} points', inline=False)
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
