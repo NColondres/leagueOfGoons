@@ -40,7 +40,7 @@ def create_database(name: str):
                 barons INTEGER,
                 dragons INTEGER,
                 turrets INTEGER,
-                inhibs INTEGER
+                inhibs INTEGER,
                 FOREIGN KEY(player_id) REFERENCES players(discord_id));''')
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS winner_loser(
