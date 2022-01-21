@@ -24,7 +24,8 @@ def create_database(name: str):
                 total_barons INTEGER,
                 total_dragons INTEGER,
                 total_turrets INTEGER,
-                matches_completed INTEGER DEFAULT 0 NOT NULL);
+                matches_completed INTEGER DEFAULT 0 NOT NULL,
+                total_inhibs INTEGER);
                 ''')
     cur.execute('''CREATE TABLE IF NOT EXISTS matches(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +40,7 @@ def create_database(name: str):
                 barons INTEGER,
                 dragons INTEGER,
                 turrets INTEGER,
+                inhibs INTEGER
                 FOREIGN KEY(player_id) REFERENCES players(discord_id));''')
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS winner_loser(
@@ -80,12 +82,12 @@ def unenroll_user(discord_account: str):
     con.close()
     return f'{discord_account} has been unerolled'
 
-def insert_match(match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets):
+def insert_match(match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets, inhibs):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp, :barons, :dragons, :turrets)
-    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion, 'win': win, 'match_end_timestamp': match_end_timestamp, 'barons': barons, 'dragons': dragons, 'turrets': turrets})
+                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets, inhibs) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp, :barons, :dragons, :turrets, :inhibs)
+    ''', {'match_id': str(match_id), 'player_id': str(player_id), 'kills': int(kills), 'deaths': deaths, 'assists': assists, 'champion': champion, 'win': win, 'match_end_timestamp': match_end_timestamp, 'barons': barons, 'dragons': dragons, 'turrets': turrets, 'inhibs': inhibs})
     con.commit()
     con.close()
     return f'{match_id} added'
@@ -94,7 +96,7 @@ def get_matches_by_user(discord_id):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
-                SELECT kills, deaths, assists, win, barons, dragons, turrets FROM matches
+                SELECT kills, deaths, assists, win, barons, dragons, turrets, inhibs FROM matches
                 WHERE player_id = (:discord_id)
                 ORDER BY match_end_timestamp ASC
                 ''', {'discord_id': str(discord_id)})
@@ -128,7 +130,7 @@ def update_complete_status_by_user(discord_id, status: int):
     con.commit()
     con.close()
 
-def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths: int, total_assists: int, total_wins: int, total_barons: int, total_dragons: int, total_turrets: int):
+def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths: int, total_assists: int, total_wins: int, total_barons: int, total_dragons: int, total_turrets: int, total_inhibs: int):
     con = sqlite3.connect(f'./src/database/{PLAYERS_DATABASE}')
     cur = con.cursor()
     cur.execute('''
@@ -141,7 +143,8 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     total_wins = :total_wins,
                     total_barons = :total_barons,
                     total_dragons = :total_dragons,
-                    total_turrets = :total_turrets
+                    total_turrets = :total_turrets,
+                    total_inhibs = :total_inhibs
 
                 WHERE discord_id = :discord_id
                 ''', {
@@ -153,8 +156,8 @@ def update_score_by_user(discord_id, score: int, total_kills: int, total_deaths:
                     'total_wins': total_wins,
                     'total_barons': total_barons,
                     'total_dragons': total_dragons,
-                    'total_turrets': total_turrets
-
+                    'total_turrets': total_turrets,
+                    'total_inhibs': total_inhibs
                 })
     con.commit()
     con.close()
