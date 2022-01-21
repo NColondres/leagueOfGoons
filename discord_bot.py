@@ -17,6 +17,7 @@ K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
 BARON_MULTIPLIER = int(ENV_VALUES['BARON_MULTIPLIER'])
 DRAGON_MULTIPLIER = int(ENV_VALUES['DRAGON_MULTIPLIER'])
 TURRET_MULTIPLIER = int(ENV_VALUES['TURRET_MULTIPLIER'])
+INHIB_MULTIPLIER = int(ENV_VALUES['INHIB_MULTIPLIER'])
 WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
 NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
 TASK_TIMER = 5 #Number of minutes (Integer only)
@@ -90,7 +91,11 @@ async def unenroll(ctx):
 async def rules(ctx):
     embed_message = discord.Embed(title='Rules:', description=f'Join by typing "!enroll <Your Summoner Name>"', colour=discord.Color.dark_teal())
     embed_message.add_field(name='GAMES REQUIRED', value=f'[{NUMBER_OF_MATCHES}]')
-    embed_message.add_field(name='Wins', value=f'{str(WINS_POINTS)} points', inline=False)
+    embed_message.add_field(name='Win', value=f'{str(WINS_POINTS)} points', inline=False)
+    embed_message.add_field(name='Baron', value=f'{str(BARON_MULTIPLIER)} points', inline=False)
+    embed_message.add_field(name='Dragon', value=f'{str(DRAGON_MULTIPLIER)} points', inline=False)
+    embed_message.add_field(name='Turret', value=f'{str(TURRET_MULTIPLIER)} points', inline=False)
+    embed_message.add_field(name='Inhib', value=f'{str(INHIB_MULTIPLIER)} points', inline=False)
     embed_message.add_field(name='K/D/A', value=f'Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash', inline=False)
     await ctx.send(embed = embed_message)
 
@@ -181,7 +186,8 @@ async def results():
                                     print('Baron Kills:', participant['baronKills'])
                                     print('Dragon Kills:', participant['dragonKills'])
                                     print('Turrets:', participant['turretTakedowns'])
-                                    print(database.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000), participant['baronKills'], participant['dragonKills'], participant['turretTakedowns']))
+                                    print('Inhibs:', participant['inhibitorTakedowns'])
+                                    print(database.insert_match(match, user[1], participant['kills'], participant['deaths'], participant['assists'], participant['championName'], participant['win'], int((match_info['info']['gameEndTimestamp']) / 1000), participant['baronKills'], participant['dragonKills'], participant['turretTakedowns'], participant['inhibitorTakedowns']))
                                     print()
                                     database.update_matches_completed_by_user(user[1])
                         else:
@@ -212,6 +218,7 @@ async def results():
                 total_barons = 0
                 total_dragons = 0
                 total_turrets = 0
+                total_inhibs = 0
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
@@ -220,6 +227,7 @@ async def results():
                     total_barons += match[4]
                     total_dragons += match[5]
                     total_turrets += match[6]
+                    total_inhibs += match[7]
                     if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
                             score += int(((match[0] + match[2]) / match[1]) * K_D_A_MULTIPLIER)
@@ -231,6 +239,7 @@ async def results():
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
+                score += total_turrets * INHIB_MULTIPLIER
                 database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins, total_barons, total_dragons, total_turrets)
 
             complete_users = database.get_enrolled_users()
@@ -248,6 +257,7 @@ async def results():
             embed_message.add_field(name='Total Barons', value=complete_users[0][11])
             embed_message.add_field(name='Total Dragons', value=complete_users[0][12])
             embed_message.add_field(name='Total Turrets', value=complete_users[0][13])
+            embed_message.add_field(name='Total Turrets', value=complete_users[0][15])
             embed_message.add_field(name='Total Wins', value=complete_users[0][10])
             await channel.send(embed = embed_message)
             await asyncio.sleep(3)
@@ -260,6 +270,7 @@ async def results():
                 embed_message.add_field(name='Total Barons', value=user[11])
                 embed_message.add_field(name='Total Dragons', value=user[12])
                 embed_message.add_field(name='Total Turrets', value=user[13])
+                embed_message.add_field(name='Total Turrets', value=user[15])
                 embed_message.add_field(name='Total Wins', value=user[10])
                 await channel.send(embed = embed_message)
                 await asyncio.sleep(3)
@@ -271,6 +282,7 @@ async def results():
             embed_message.add_field(name='Total Barons', value=complete_users[-1][11])
             embed_message.add_field(name='Total Dragons', value=complete_users[-1][12])
             embed_message.add_field(name='Total Turrets', value=complete_users[-1][13])
+            embed_message.add_field(name='Total Turrets', value=complete_users[-1][15])
             embed_message.add_field(name='Total Wins', value=complete_users[-1][10])
             await channel.send(embed = embed_message)
             await asyncio.sleep(3)
