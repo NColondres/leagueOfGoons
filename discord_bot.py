@@ -240,7 +240,7 @@ async def results():
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
                 score += total_turrets * INHIB_MULTIPLIER
-                database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins, total_barons, total_dragons, total_turrets)
+                database.update_score_by_user(user[1], score, total_kills, total_deaths, total_assists, total_wins, total_barons, total_dragons, total_turrets, total_inhibs)
 
             complete_users = database.get_enrolled_users()
             await remove_discord_nicknames()
