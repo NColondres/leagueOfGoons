@@ -1,2 +1,4 @@
 #Ignore Environment Variables
 .env
+#Ignore the DB file created for the tournament
+src/database/players_data.db
