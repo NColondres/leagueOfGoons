@@ -290,11 +290,6 @@ async def results():
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
                 
-                                
-            
-    else:
-        print('Nobody is enrolled yet')
-
 if __name__ == '__main__':    
     results.start()
     bot.run(BOT_TOKEN)
