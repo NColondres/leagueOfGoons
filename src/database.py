@@ -1,9 +1,9 @@
-from os import path
 import sqlite3
+import os
 from dotenv import dotenv_values
 
 PLAYERS_DATABASE = 'players_data.db'
-AMOUNT_OF_GAMES = int(dotenv_values('.env')['NUMBER_OF_MATCHES'])
+AMOUNT_OF_GAMES = int(os.getenv('NUMBER_OF_MATCHES'))
 
 def create_database(name: str):
     con = sqlite3.connect(f'./src/database/{name}')
