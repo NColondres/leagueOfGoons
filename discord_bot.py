@@ -2,28 +2,26 @@ from datetime import datetime
 import sqlite3
 import discord
 from discord.ext.commands.errors import CommandNotFound
-from dotenv import dotenv_values
+import os
 from discord.ext import commands, tasks
 from src import league, database
 import time
 import asyncio
-import pathlib
 
-ENV_VALUES = dotenv_values('.env')
-BOT_TOKEN = ENV_VALUES['LEAGUE_OF_GOONS_BOT_TOKEN']
-DISCORD_CHANNEL = ENV_VALUES['DISCORD_CHANNEL']
-LEAGUE_OF_GOONS_SERVER_ID = int(ENV_VALUES['LEAGUE_OF_GOONS_SERVER'])
-K_D_A_MULTIPLIER = int(ENV_VALUES['K_D_A_MULTIPLIER'])
-BARON_MULTIPLIER = int(ENV_VALUES['BARON_MULTIPLIER'])
-DRAGON_MULTIPLIER = int(ENV_VALUES['DRAGON_MULTIPLIER'])
-TURRET_MULTIPLIER = int(ENV_VALUES['TURRET_MULTIPLIER'])
-INHIB_MULTIPLIER = int(ENV_VALUES['INHIB_MULTIPLIER'])
-WINS_POINTS = int(ENV_VALUES['WINS_POINTS'])
-NUMBER_OF_MATCHES = ENV_VALUES['NUMBER_OF_MATCHES']
+BOT_TOKEN = os.getenv('LEAGUE_OF_GOONS_BOT_TOKEN')
+DISCORD_CHANNEL = os.getenv('DISCORD_CHANNEL')
+LEAGUE_OF_GOONS_SERVER_ID = int(os.getenv('LEAGUE_OF_GOONS_SERVER'))
+K_D_A_MULTIPLIER = int(os.getenv('K_D_A_MULTIPLIER'))
+BARON_MULTIPLIER = int(os.getenv('BARON_MULTIPLIER'))
+DRAGON_MULTIPLIER = int(os.getenv('DRAGON_MULTIPLIER'))
+TURRET_MULTIPLIER = int(os.getenv('TURRET_MULTIPLIER'))
+INHIB_MULTIPLIER = int(os.getenv('INHIB_MULTIPLIER'))
+WINS_POINTS = int(os.getenv('WINS_POINTS'))
+NUMBER_OF_MATCHES = os.getenv('NUMBER_OF_MATCHES')
 TASK_TIMER = 5 #Number of minutes (Integer only)
 
-CROWN = ENV_VALUES['CROWN']
-POOP = ENV_VALUES['POOP']
+CROWN = os.getenv('CROWN')
+POOP = os.getenv('POOP')
 
 help_command = commands.DefaultHelpCommand(
     no_category = 'Commands',

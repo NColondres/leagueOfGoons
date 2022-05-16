@@ -1,8 +1,8 @@
 import requests
-from dotenv import dotenv_values
+import os
 
-BASEURL = dotenv_values('.env')['LEAGUE_BASE_URL']
-LEAGUE_API_KEY = dotenv_values('.env')['LEAGUE_API_KEY']
+BASEURL = os.getenv('LEAGUE_BASE_URL')
+LEAGUE_API_KEY = os.getenv('LEAGUE_API_KEY')
 HEADER = {
     "X-Riot-Token": LEAGUE_API_KEY
 }
