@@ -1,5 +1,5 @@
 # League Of Goons
-*Discord Bot*  
+#### Discord Bot
 Author: Nicolas Colondres
 
 ---
