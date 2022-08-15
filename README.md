@@ -6,7 +6,7 @@ Author: Nicolas Colondres
 
 ## Usage
 
-Host a tournament with your discord friends and see who is the best.
+#### Host a tournament with your discord friends and see who is the best without actually having to play together.
 
 The bot works by enrolling your Summoner Name. Use: ***!enroll \<Summoner Name\>***
 ![Enrolling League Account and seeing who's enrolled](images/enroll.gif)
