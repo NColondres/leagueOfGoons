@@ -14,16 +14,12 @@ The bot works by enrolling your Summoner Name. Use: ***!enroll \<Summoner Name\>
 Play your required games and once **at least 3 people** have completed their games, the tournament will total the points gained in each match. Players are sorted by highest to lowest score.
 ![Tournament announcing scores](images/tournament.png)
 
----
-
-## Scoring
+### Scoring
 
 Send the ***!rules*** command to see the points used for each match played.
 ![Scoring](images/scoring.png)
 
----
-
-## Commands
+### Commands
 
 Use the ***!help*** command to see the list of all commands available.
 
@@ -34,3 +30,5 @@ Commands:
 * !kick &emsp; @mention the user you would like to kick. Admin use only
 * !rules &emsp; How to use bot and explain points
 * !unenroll &emsp; Removes you from the tournament
+
+---
