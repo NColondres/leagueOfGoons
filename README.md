@@ -23,12 +23,11 @@ Send the ***!rules*** command to see the points used for each match played.
 
 Use the ***!help*** command to see the list of all commands available.
 
-Commands:
-* !enroll &emsp; Enrolls discord account with Summoner Name
-* !enrolled &emsp; List all enrolled users
-* !help &emsp; Shows these commands in a message
-* !kick &emsp; @mention the user you would like to kick. Admin use only
-* !rules &emsp; How to use bot and explain points
-* !unenroll &emsp; Removes you from the tournament
-
----
+| Command | Description | Example |
+| --- | --- | --- |
+| !enroll | Enrolls discord account with Summoner Name | `!enroll LOLTYLER1`
+| !enrolled | List all enrolled users | `!enrolled`
+| !unenroll | Removes you from the tournament | `!unenroll`
+| !help | Shows these commands in a message | `!help`
+| !kick | @mention the discord user you would like to kick. Admin use only | `!kick @NickC`
+| !rules | How to use bot and explain points | `!rules`
