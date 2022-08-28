@@ -37,7 +37,7 @@ Use the ***!help*** command to see the list of all commands available.
 
 ## Self host server setup
 
-After cloning in the repository you must have a .env in the root directory (same location as the Dockerfile) that looks like the following:
+After cloning in the repository you must save a .env file in the root directory (same location as the Dockerfile) that looks like the following:
 
 
 ```bash
