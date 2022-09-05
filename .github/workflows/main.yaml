@@ -8,7 +8,6 @@ on:
   push:
     paths:
       - '**.py'
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
