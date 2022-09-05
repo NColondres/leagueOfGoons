@@ -72,3 +72,5 @@ docker build -t leagueofgoonsbot .
 docker run -d --name leaugeofgoonsbot --env-file ./.env leagueofgoonsbot:latest
 
 ```
+
+Test of readme. Delete if you see this
