@@ -69,6 +69,6 @@ You only have to replace where you see the **< >**
 While in the root directory of this repository:
 ```bash
 docker build -t leagueofgoonsbot .
-docker run -d --name leaugeofgoonsbot --env-file ./.env leagueofgoonsbot:latest
+docker run -d --restart always --name leaugeofgoonsbot --env-file ./.env leagueofgoonsbot:latest
 
 ```
