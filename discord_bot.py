@@ -54,7 +54,7 @@ async def on_command_error(ctx, error):
 @bot.command(brief="Enrolls discord account with Summoner Name")
 async def enroll(ctx, *summoner_name: str):
     if summoner_name:
-        combined_arguments = " ".join(summoner_name))
+        combined_arguments = " ".join(summoner_name)
         league_info = await league.get_summoner_info(combined_arguments)
         if isinstance(league_info, dict):
             try:
