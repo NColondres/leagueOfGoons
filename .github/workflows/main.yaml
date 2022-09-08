@@ -26,5 +26,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install and Run flake8
         run: |
-          sudo apt install flake8 -y
+          sudo apt -qq install flake8 -y
           flake8 --extend-ignore=E501 ./
