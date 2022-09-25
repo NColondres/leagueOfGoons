@@ -22,7 +22,7 @@ TASK_TIMER = 5  # Number of minutes (Integer only)
 
 CROWN = os.getenv("CROWN")
 POOP = os.getenv("POOP")
-# Test comment
+
 help_command = commands.DefaultHelpCommand(
     no_category="Commands",
 )
