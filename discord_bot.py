@@ -51,6 +51,7 @@ async def on_command_error(ctx, error):
         )
 
 
+# test comment two
 @bot.command(brief="Enrolls discord account with Summoner Name")
 async def enroll(ctx, *summoner_name: str):
     if summoner_name:
