@@ -42,7 +42,7 @@ bot = commands.Bot(
 async def on_ready():
     print("Bot is ready")
 
-
+#Third Test Comment
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
