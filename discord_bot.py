@@ -49,7 +49,7 @@ async def on_command_error(ctx, error):
         await ctx.reply(
             f"WOAH THERE BESSIE\n{ctx.prefix}{ctx.invoked_with} is not a valid command"
         )
-
+#Test Comment, please remove.
 
 @bot.command(brief="Enrolls discord account with Summoner Name")
 async def enroll(ctx, *summoner_name: str):
