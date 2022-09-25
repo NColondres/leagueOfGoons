@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install and Run flake8
         run: |
-          sudo apt -qq install flake8 -y
+          sudo apt  install flake8 -qq
           flake8 --extend-ignore=E501 ./
 
       - name: Login to DockerHub
