@@ -26,7 +26,7 @@ POOP = os.getenv("POOP")
 help_command = commands.DefaultHelpCommand(
     no_category="Commands",
 )
-# add comment 8
+# add comment 9
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(
