@@ -39,4 +39,4 @@ jobs:
           context: .
           push: true
           tags: ncolondres/leagueofgoonsbot:latest
-          platforms: linux/arm64/v8
+#          platforms: linux/arm64/v8
