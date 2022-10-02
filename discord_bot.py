@@ -104,7 +104,7 @@ async def enrolled(ctx):
                 complete_status = all_users[user][2] + " [Completed]"
                 message.add_field(name=all_users[user][0], value=complete_status)
             else:
-                user_status = f"{all_users[user][2]} [{all_users[user][14]}]"
+                user_status = f"{all_users[user][2]} [{all_users[user][14]}/{NUMBER_OF_MATCHES}]"
                 message.add_field(name=all_users[user][0], value=user_status)
         await ctx.send(embed=message)
     else:
