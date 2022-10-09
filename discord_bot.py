@@ -18,7 +18,7 @@ TURRET_MULTIPLIER = int(os.getenv("TURRET_MULTIPLIER"))
 INHIB_MULTIPLIER = int(os.getenv("INHIB_MULTIPLIER"))
 WINS_POINTS = int(os.getenv("WINS_POINTS"))
 NUMBER_OF_MATCHES = os.getenv("NUMBER_OF_MATCHES")
-TASK_TIMER = 5  # Number of minutes (Integer only)
+TASK_TIMER = 5  # Number of minutes (Integer only) Ignore this text
 
 CROWN = os.getenv("CROWN")
 POOP = os.getenv("POOP")
