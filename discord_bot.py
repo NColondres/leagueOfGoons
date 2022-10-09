@@ -328,6 +328,7 @@ async def results():
                     total_kills += match[0]
                     total_deaths += match[1]
                     total_assists += match[2]
+                    print(total_assists * 0.75)
                     win = match[3]
                     total_barons += match[4]
                     total_dragons += match[5]
