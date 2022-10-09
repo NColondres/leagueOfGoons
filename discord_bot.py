@@ -327,7 +327,7 @@ async def results():
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
-                    total_assists += match[2] * 0.75
+                    total_assists += match[2]
                     win = match[3]
                     total_barons += match[4]
                     total_dragons += match[5]
