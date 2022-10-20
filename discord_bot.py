@@ -18,7 +18,7 @@ TURRET_MULTIPLIER = int(os.getenv("TURRET_MULTIPLIER"))
 INHIB_MULTIPLIER = int(os.getenv("INHIB_MULTIPLIER"))
 WINS_POINTS = int(os.getenv("WINS_POINTS"))
 NUMBER_OF_MATCHES = os.getenv("NUMBER_OF_MATCHES")
-TASK_TIMER = 5  # Number of minutes (Integer only) Ignore this text
+TASK_TIMER = 5  # Number of minutes to run task
 
 CROWN = os.getenv("CROWN")
 POOP = os.getenv("POOP")
@@ -63,7 +63,7 @@ async def enroll(ctx, *summoner_name: str):
                     ctx.message.author.id,
                     league_info["name"],
                     league_info["puuid"],
-                    int(time.time()),
+                    int(time.time()) + 600,
                 )
                 await ctx.reply(
                     f'{league_info["name"]} has been successfully enrolled with {ctx.message.author.name}'
@@ -104,7 +104,9 @@ async def enrolled(ctx):
                 complete_status = all_users[user][2] + " [Completed]"
                 message.add_field(name=all_users[user][0], value=complete_status)
             else:
-                user_status = f"{all_users[user][2]} [{all_users[user][14]}/{NUMBER_OF_MATCHES}]"
+                user_status = (
+                    f"{all_users[user][2]} [{all_users[user][14]}/{NUMBER_OF_MATCHES}]"
+                )
                 message.add_field(name=all_users[user][0], value=user_status)
         await ctx.send(embed=message)
     else:
