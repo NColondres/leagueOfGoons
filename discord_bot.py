@@ -18,7 +18,7 @@ TURRET_MULTIPLIER = int(os.getenv("TURRET_MULTIPLIER"))
 INHIB_MULTIPLIER = int(os.getenv("INHIB_MULTIPLIER"))
 WINS_POINTS = int(os.getenv("WINS_POINTS"))
 NUMBER_OF_MATCHES = os.getenv("NUMBER_OF_MATCHES")
-TASK_TIMER = 5  # Number of minutes to run task
+TASK_TIMER = 5  # Number of minutes to run task repeatedly
 
 CROWN = os.getenv("CROWN")
 POOP = os.getenv("POOP")
