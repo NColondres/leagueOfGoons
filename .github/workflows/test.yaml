@@ -1,0 +1,12 @@
+#testing github actions env variables
+
+name: Echo Git Variables
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Command
+        run: |
+          echo $GITHUB_REF_NAME
+          echo $GITHUB_REF
