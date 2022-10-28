@@ -9,8 +9,9 @@ jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Command
+      - name: Set Image Version
+        if: ${{$GITHUB_REF_NAME == 'main'}}
         run: |
-          echo $GITHUB_REF_NAME
-          echo $GITHUB_REF
-          cat $GITHUB_ENV
+          echo PROD
+          echo "DOCKER_IMAGE_VERSION=PROD >> $GITHUB_ENV"
+          echo ${{env.DOCKER_IMAGE_VERSION}}
