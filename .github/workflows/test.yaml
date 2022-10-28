@@ -9,7 +9,7 @@ jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Set Image Version to Prod
         if: github.ref_name == 'main'
         run: |
@@ -20,4 +20,4 @@ jobs:
           echo $GITHUB_REF_NAME
       - name: Test ENV name
         run: |
-          echo $DOCKER_IMAGE_VERSION
+          echo ${{env.DOCKER_IMAGE_VERSION}}
