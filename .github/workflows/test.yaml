@@ -14,7 +14,9 @@ jobs:
         run: |
           echo PROD
           echo "DOCKER_IMAGE_VERSION=PROD >> $GITHUB_ENV"
-          echo $DOCKER_IMAGE_VERSION
       - name: Set Image Version to branch name
         run: |
           echo $GITHUB_REF_NAME
+      - name: Test ENV name
+        run: |
+          echo $$DOCKER_IMAGE_VERSION
