@@ -17,4 +17,4 @@ jobs:
           echo ${{env.DOCKER_IMAGE_VERSION}}
       - name: Set Image Version to branch name
         run: |
-          echo ${env.GITHUB_REF_NAME}
+          echo $GITHUB_REF_NAME
