@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Image Version to Prod
-        if: env.GITHUB_REF_NAME == 'main'
+        if: GITHUB.REF.NAME == 'main'
         run: |
           echo PROD
           echo "DOCKER_IMAGE_VERSION=PROD >> $GITHUB_ENV"
