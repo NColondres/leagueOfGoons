@@ -19,4 +19,4 @@ jobs:
           echo $GITHUB_REF_NAME
       - name: Test ENV name
         run: |
-          echo $$DOCKER_IMAGE_VERSION
+          echo $DOCKER_IMAGE_VERSION
