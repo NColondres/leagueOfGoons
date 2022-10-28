@@ -9,15 +9,15 @@ jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v3
       - name: Set Image Version to Prod
         if: github.ref_name == 'main'
         run: |
           echo PROD
           echo "DOCKER_IMAGE_VERSION=PROD" >> $GITHUB_ENV
       - name: Set Image Version to branch name
+        if: github.ref_name != 'main'
         run: |
-          echo $GITHUB_REF_NAME
+          echo "DOCKER_IMAGE_VERSION=${{github.ref_name}}" >> $GITHUB_ENV
       - name: Test ENV name
         run: |
           echo ${{env.DOCKER_IMAGE_VERSION}}
