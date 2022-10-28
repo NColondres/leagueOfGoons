@@ -14,7 +14,7 @@ jobs:
         if: github.ref_name == 'main'
         run: |
           echo PROD
-          echo "DOCKER_IMAGE_VERSION=PROD >> $GITHUB_ENV"
+          echo "DOCKER_IMAGE_VERSION=PROD" >> $GITHUB_ENV
       - name: Set Image Version to branch name
         run: |
           echo $GITHUB_REF_NAME
