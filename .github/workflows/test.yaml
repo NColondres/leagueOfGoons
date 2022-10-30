@@ -6,7 +6,7 @@ on:
   push:
 
 env:
-  DOCKER_IMAGE_VERSION: $(echo ${{github.ref_name}} | tr '[:lower:]' '[:upper:]')
+  DOCKER_IMAGE_VERSION: ${{github.ref_name}}
 
 jobs:
   echo:
@@ -15,7 +15,7 @@ jobs:
       - name: Set Image Version to Prod
         if: github.ref_name == 'main'
         run: |
-          echo "DOCKER_IMAGE_VERSION=PROD" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_VERSION=prod" >> $GITHUB_ENV
       - name: Test ENV name
         run: |
           echo ${{env.DOCKER_IMAGE_VERSION}}
