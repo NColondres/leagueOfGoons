@@ -5,18 +5,17 @@ name: Echo Git Variables
 on:
   push:
 
+env:
+  DOCKER_IMAGE_VERSION: $(echo ${{github.ref_name}} | tr '[:lower:]' '[:upper:]')
+
 jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
       - name: Set Image Version to Prod
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'MAIN'
         run: |
           echo "DOCKER_IMAGE_VERSION=PROD" >> $GITHUB_ENV
-      - name: Set Image Version to branch name
-        if: github.ref_name != 'main'
-        run: |
-          echo "DOCKER_IMAGE_VERSION=${{github.ref_name}}" >> $GITHUB_ENV
       - name: Test ENV name
         run: |
           echo ${{env.DOCKER_IMAGE_VERSION}}
