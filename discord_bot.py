@@ -239,6 +239,7 @@ async def results():
                         f"{user[0]} has classic no matches played since {last_match_time}\n"
                     )
                 else:
+                    print(matches)
                     for match in matches:
                         print(match)
                         match_info = league.get_match_info(match)
