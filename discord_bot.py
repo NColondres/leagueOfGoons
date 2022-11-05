@@ -238,6 +238,8 @@ async def results():
                     print(
                         f"{user[0]} has classic no matches played since {last_match_time}\n"
                     )
+                elif matches == 503:
+                    print("503 Error: League API is down")
                 else:
                     print(matches)
                     for match in matches:
@@ -346,8 +348,8 @@ async def results():
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
-                print('Total Assists:', total_assists)
-                print('75 percent of Total Assists:', total_assists * 0.75)
+                print("Total Assists:", total_assists)
+                print("75 percent of Total Assists:", total_assists * 0.75)
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
