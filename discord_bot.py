@@ -346,7 +346,8 @@ async def results():
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
-                print(total_assists * 0.75)
+                print('Total Assists:', total_assists)
+                print('75 percent of Total Assists:', total_assists * 0.75)
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
