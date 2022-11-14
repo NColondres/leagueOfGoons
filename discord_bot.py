@@ -37,7 +37,6 @@ bot = commands.Bot(
     intents=intents,
 )
 
-# Test Comment. Please Delete
 @bot.event
 async def on_ready():
     print("Bot is ready")
