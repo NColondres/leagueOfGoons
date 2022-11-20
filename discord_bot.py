@@ -1,4 +1,3 @@
-from datetime import datetime
 import sqlite3
 import discord
 from discord.ext.commands.errors import CommandNotFound
