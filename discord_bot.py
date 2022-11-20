@@ -242,8 +242,10 @@ async def results():
                     print("503 Error: League API is down")
                 else:
                     print(matches)
-                    for match in matches[:NUMBER_OF_MATCHES]:
-                        print(match)
+                    match_count = 1
+                    for match in matches:
+                        if match_count == int(NUMBER_OF_MATCHES):
+                            break
                         match_info = league.get_match_info(match)
                         await asyncio.sleep(1)
                         if (
@@ -290,6 +292,7 @@ async def results():
                                     )
                                     print()
                                     database.update_matches_completed_by_user(user[1])
+                            match_count += 1
                         else:
                             print("Match not a Classic game\n")
                     last_match = int(
