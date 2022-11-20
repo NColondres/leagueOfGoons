@@ -242,7 +242,7 @@ async def results():
                     print("503 Error: League API is down")
                 else:
                     print(matches)
-                    for match in matches:
+                    for match in matches[:NUMBER_OF_MATCHES]:
                         print(match)
                         match_info = league.get_match_info(match)
                         await asyncio.sleep(1)
