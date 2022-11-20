@@ -308,7 +308,6 @@ async def results():
 
             else:
                 tournament_complete_count += 1
-                complete_user(user)
 
         if tournament_complete_count == len(data) and len(data) >= 4:
             print(f"All users have completed their {database.AMOUNT_OF_GAMES} games\n")
