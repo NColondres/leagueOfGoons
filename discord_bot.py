@@ -1,4 +1,3 @@
-from datetime import datetime
 import sqlite3
 import discord
 from discord.ext.commands.errors import CommandNotFound
@@ -232,12 +231,7 @@ async def results():
                 user_puuid = user[3]
                 matches = league.get_league_matches(user_puuid, str(user[4]))
                 if not matches:
-                    last_match_time = datetime.fromtimestamp(user[4]).strftime(
-                        "%b %d %I:%M:%S %p"
-                    )
-                    print(
-                        f"{user[0]} has classic no matches played since {last_match_time}\n"
-                    )
+                    continue
                 elif matches == 503:
                     print("503 Error: League API is down")
                 else:
