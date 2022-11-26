@@ -236,7 +236,7 @@ async def results():
                     print("503 Error: League API is down")
                 else:
                     print(matches)
-                    match_count = 1
+                    match_count = 0
                     for match in matches:
                         if match_count == int(NUMBER_OF_MATCHES):
                             break
