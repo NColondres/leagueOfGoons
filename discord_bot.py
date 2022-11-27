@@ -210,11 +210,11 @@ async def set_discord_nicknames():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
         member1 = server.get_member(int(current_winner_loser[0][1]))
-        if member1.id != server.owner.id:
+        if member1 and member1.id != server.owner.id:
             new_nick = CROWN + member1.name + CROWN
             await member1.edit(nick=new_nick)
         member2 = server.get_member(int(current_winner_loser[1][1]))
-        if member2.id != server.owner.id:
+        if member2 and member2.id != server.owner.id:
             new_nick = POOP + member2.name + POOP
             await member2.edit(nick=new_nick)
 
@@ -235,8 +235,7 @@ async def results():
                 elif matches == 503:
                     print("503 Error: League API is down")
                 else:
-                    print(matches)
-                    match_count = 1
+                    match_count = 0
                     for match in matches:
                         if match_count == int(NUMBER_OF_MATCHES):
                             break
@@ -248,14 +247,7 @@ async def results():
                         ):
                             for participant in match_info["info"]["participants"]:
                                 if participant["puuid"] == user_puuid:
-                                    print(
-                                        "Game Ended Unix Timestamp in Seconds:",
-                                        int(
-                                            (match_info["info"]["gameEndTimestamp"])
-                                            / 1000
-                                        )
-                                        + 10,
-                                    )
+                                    print("Completed game for:", user[0])
                                     print("Kills:", participant["kills"])
                                     print("Deaths:", participant["deaths"])
                                     print("Assists:", participant["assists"])
@@ -334,18 +326,20 @@ async def results():
                     total_dragons += match[5]
                     total_turrets += match[6]
                     total_inhibs += match[7]
+                    # Assists count for 70% of a kill.
                     if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
                             score += int(
-                                ((match[0] + match[2]) / match[1]) * K_D_A_MULTIPLIER
+                                ((match[0] + int(match[2] * 0.70)) / match[1])
+                                * K_D_A_MULTIPLIER
                             )
                         else:
-                            score += int((match[0] + match[2]) * K_D_A_MULTIPLIER)
+                            score += int(
+                                (match[0] + int(match[2] * 0.70)) * K_D_A_MULTIPLIER
+                            )
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
-                print("Total Assists:", total_assists)
-                print("75 percent of Total Assists:", total_assists * 0.75)
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
