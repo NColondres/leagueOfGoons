@@ -312,7 +312,7 @@ async def results():
                 title="TOURNAMENT ENDED\nANNOUNCING SCORES",
                 colour=discord.Color.dark_teal(),
             )
-            await channel.send(embed=embed_message)
+            await channel.send("embed=embed_message")
             await asyncio.sleep(3)
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
