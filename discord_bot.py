@@ -210,11 +210,11 @@ async def set_discord_nicknames():
     server = bot.get_guild(LEAGUE_OF_GOONS_SERVER_ID)
     if current_winner_loser:
         member1 = server.get_member(int(current_winner_loser[0][1]))
-        if member1.id != server.owner.id:
+        if member1 and member1.id != server.owner.id:
             new_nick = CROWN + member1.name + CROWN
             await member1.edit(nick=new_nick)
         member2 = server.get_member(int(current_winner_loser[1][1]))
-        if member2.id != server.owner.id:
+        if member2 and member2.id != server.owner.id:
             new_nick = POOP + member2.name + POOP
             await member2.edit(nick=new_nick)
 
@@ -345,7 +345,7 @@ async def results():
                         total_wins += 1
                         score += WINS_POINTS
                 print("Total Assists:", total_assists)
-                print("75 percent of Total Assists:", total_assists * 0.75)
+                print("75 percent of Total Assists:", int(total_assists * 0.75))
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
