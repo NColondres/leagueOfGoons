@@ -247,7 +247,7 @@ async def results():
                         ):
                             for participant in match_info["info"]["participants"]:
                                 if participant["puuid"] == user_puuid:
-                                    print("Complete game for:", user[0])
+                                    print("Completed game for:", user[0])
                                     print("Kills:", participant["kills"])
                                     print("Deaths:", participant["deaths"])
                                     print("Assists:", participant["assists"])
@@ -322,7 +322,7 @@ async def results():
                     total_deaths += match[1]
                     # Assists count for 0.75 of a kill.
                     print("Assists:", match[2])
-                    print("Assits times 0.70 rounded down:", int(match[2]))
+                    print("Assists times 0.70 rounded down:", int(match[2] * 0.70))
                     total_assists += int(match[2] * 0.70)
                     win = match[3]
                     total_barons += match[4]
