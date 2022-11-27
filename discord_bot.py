@@ -247,7 +247,7 @@ async def results():
                         ):
                             for participant in match_info["info"]["participants"]:
                                 if participant["puuid"] == user_puuid:
-                                    print('Complete game for:', user[0])
+                                    print("Complete game for:", user[0])
                                     print("Kills:", participant["kills"])
                                     print("Deaths:", participant["deaths"])
                                     print("Assists:", participant["assists"])
