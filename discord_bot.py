@@ -328,7 +328,8 @@ async def results():
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
-                    total_assists += match[2]
+                    # Assists count for 0.75 of a kill.
+                    total_assists += int(match[2] * 0.75)
                     win = match[3]
                     total_barons += match[4]
                     total_dragons += match[5]
@@ -344,8 +345,6 @@ async def results():
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
-                print("Total Assists:", total_assists)
-                print("75 percent of Total Assists:", int(total_assists * 0.75))
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
