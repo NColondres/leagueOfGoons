@@ -320,22 +320,23 @@ async def results():
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
-                    # Assists count for 0.75 of a kill.
-                    print("Assists:", match[2])
-                    print("Assists times 0.70 rounded down:", int(match[2] * 0.70))
-                    total_assists += int(match[2] * 0.70)
+                    total_assists += match[2]
                     win = match[3]
                     total_barons += match[4]
                     total_dragons += match[5]
                     total_turrets += match[6]
                     total_inhibs += match[7]
+                    # Assists count for 70% of a kill.
                     if (match[0] + match[2]) > match[1]:
                         if match[1] > 0:
                             score += int(
-                                ((match[0] + match[2]) / match[1]) * K_D_A_MULTIPLIER
+                                ((match[0] + int(match[2] * 0.70)) / match[1])
+                                * K_D_A_MULTIPLIER
                             )
                         else:
-                            score += int((match[0] + match[2]) * K_D_A_MULTIPLIER)
+                            score += int(
+                                (match[0] + int(match[2] * 0.70)) * K_D_A_MULTIPLIER
+                            )
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
