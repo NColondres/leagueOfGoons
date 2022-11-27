@@ -235,7 +235,6 @@ async def results():
                 elif matches == 503:
                     print("503 Error: League API is down")
                 else:
-                    print(matches)
                     match_count = 0
                     for match in matches:
                         if match_count == int(NUMBER_OF_MATCHES):
@@ -248,14 +247,7 @@ async def results():
                         ):
                             for participant in match_info["info"]["participants"]:
                                 if participant["puuid"] == user_puuid:
-                                    print(
-                                        "Game Ended Unix Timestamp in Seconds:",
-                                        int(
-                                            (match_info["info"]["gameEndTimestamp"])
-                                            / 1000
-                                        )
-                                        + 10,
-                                    )
+                                    print('Complete game for:', user[0])
                                     print("Kills:", participant["kills"])
                                     print("Deaths:", participant["deaths"])
                                     print("Assists:", participant["assists"])
@@ -329,7 +321,9 @@ async def results():
                     total_kills += match[0]
                     total_deaths += match[1]
                     # Assists count for 0.75 of a kill.
-                    total_assists += int(match[2] * 0.75)
+                    print("Assists:", match[2])
+                    print("Assits times 0.70 rounded down:", int(match[2]))
+                    total_assists += int(match[2] * 0.70)
                     win = match[3]
                     total_barons += match[4]
                     total_dragons += match[5]
