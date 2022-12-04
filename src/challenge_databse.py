@@ -18,6 +18,7 @@ def create_duel_database(name: str):
     con.commit()
     con.close()
 
+
 create_duel_database(DUEL_DATABASE)
 
 con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
@@ -27,10 +28,7 @@ cur.execute(
     INSERT INTO challenges (challenger, champion)
     VALUES (:challenger, :champion )
     """,
-    {
-        "challenger": 'Nick_C',
-        "champion": 'Lucian'
-    }
+    {"challenger": "Nick_C", "champion": "Lucian"},
 )
 
-print('\nCHALLENGER DATABSE IMPORTED\n')
+print("\nCHALLENGER DATABSE IMPORTED\n")
