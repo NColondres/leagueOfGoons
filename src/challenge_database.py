@@ -1,6 +1,6 @@
 import sqlite3
 
-DUEL_DATABASE = "duel_databse.db"
+DUEL_DATABASE = "challenge_databse.db"
 
 
 def create_duel_database(name: str):
