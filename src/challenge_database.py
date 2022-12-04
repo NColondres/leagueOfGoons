@@ -1,6 +1,6 @@
 import sqlite3
 
-DUEL_DATABASE = "duel_databse.db"
+DUEL_DATABASE = "challenge_databse.db"
 
 
 def create_duel_database(name: str):
@@ -21,7 +21,7 @@ def create_duel_database(name: str):
 
 create_duel_database(DUEL_DATABASE)
 
-con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
+con = sqlite3.connect(f"./src/database/{DUEL_DATABASE}")
 cur = con.cursor()
 cur.execute(
     """
