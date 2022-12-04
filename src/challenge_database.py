@@ -30,5 +30,3 @@ cur.execute(
     """,
     {"challenger": "Nick_C", "champion": "Lucian"},
 )
-
-print("\nCHALLENGER DATABSE IMPORTED\n")

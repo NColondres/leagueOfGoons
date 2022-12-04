@@ -7,6 +7,11 @@ from src import league, database, challenge_database
 import time
 import asyncio
 
+# For testing. Delete me once done
+print(f"\n{challenge_database.DUEL_DATABASE} IMPORTED\n")
+
+#
+
 BOT_TOKEN = os.getenv("LEAGUE_OF_GOONS_BOT_TOKEN")
 DISCORD_CHANNEL = os.getenv("DISCORD_CHANNEL")
 LEAGUE_OF_GOONS_SERVER_ID = int(os.getenv("LEAGUE_OF_GOONS_SERVER"))
