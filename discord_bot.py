@@ -3,7 +3,7 @@ import discord
 from discord.ext.commands.errors import CommandNotFound
 import os
 from discord.ext import commands, tasks
-from src import league, database
+from src import league, database, challenge_database
 import time
 import asyncio
 
