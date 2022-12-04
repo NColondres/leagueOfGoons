@@ -1,6 +1,6 @@
 import sqlite3
 
-DUEL_DATABASE = "challenge_databse.db"
+DUEL_DATABASE = "challenge_database.db"
 
 
 def create_duel_database(name: str):
@@ -30,3 +30,5 @@ cur.execute(
     """,
     {"challenger": "Nick_C", "champion": "Lucian"},
 )
+con.commit()
+con.close()
