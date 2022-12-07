@@ -60,7 +60,7 @@ async def get_challenges(challenger_discord_id: int):
         Select * FROM challenges
         WHERE challenger_discord_id = (:challenger_discord_id)
         """,
-        {"challenger_discord_id": str(challenger_discord_id)},
+        {"challenger_discord_id": challenger_discord_id},
     )
     print(data)
     print(data.description)

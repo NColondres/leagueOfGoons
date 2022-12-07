@@ -423,6 +423,7 @@ async def results():
 async def members(ctx):
     await ctx.reply(bot.users)
     await ctx.send(bot.get_all_members())
+    await ctx.send(challenge_database.get_challenges(ctx.message.author.id))
 
 
 if __name__ == "__main__":
