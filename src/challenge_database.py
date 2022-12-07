@@ -51,6 +51,7 @@ def create_duel_database(name: str):
 
 create_duel_database(CHALLENGE_DATABASE)
 
+
 async def get_challenges(challenger_discord_id: int):
     con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
     cur = con.cursor()
@@ -59,8 +60,8 @@ async def get_challenges(challenger_discord_id: int):
         Select * FROM challenges
         WHERE challenger_discord_id = (:challenger_discord_id)
         """,
-        {"challenger_discord_id": str(discord_id)})
+        {"challenger_discord_id": str(discord_id)},
+    )
     print(data)
     print(data.description)
     print(cur.fetchall())
-    
