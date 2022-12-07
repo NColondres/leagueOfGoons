@@ -417,11 +417,13 @@ async def results():
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
 
+
 # Challenges commands
 @bot.command(brief="Get all members in server")
 async def members(ctx):
     await ctx.reply(bot.users)
     await ctx.send(bot.get_all_members())
+
 
 if __name__ == "__main__":
     results.start()
