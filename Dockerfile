@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM python:3.8
+#creating ubuntu user
 RUN useradd ubuntu
 USER ubuntu
 SHELL [ "/bin/bash", "-c" ]
