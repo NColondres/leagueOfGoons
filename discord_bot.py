@@ -379,7 +379,7 @@ async def results():
                     (complete_users[0][7], complete_users[0][8], complete_users[0][9]),
                 )
             )
-            embed_message.add_field(name="K/D/A", value="/".join(k_d_a))
+            embed_message.add_field(name="K/D/A", value=k_d_a)
             embed_message.add_field(name="Total Barons", value=complete_users[0][11])
             embed_message.add_field(name="Total Dragons", value=complete_users[0][12])
             embed_message.add_field(name="Total Turrets", value=complete_users[0][13])
