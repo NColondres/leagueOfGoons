@@ -373,12 +373,8 @@ async def results():
                 title=f"{CROWN}{complete_users[0][0]}{CROWN}: [{complete_users[0][5]}]",
                 colour=discord.Color.dark_teal(),
             )
-            embed_message.add_field(
-                name="K/D/A",
-                value="/".join(
-                    complete_users[0][7], complete_users[0][8], complete_users[0][9]
-                ),
-            )
+            k_d_a = (complete_users[0][7], complete_users[0][8], complete_users[0][9])
+            embed_message.add_field(name="K/D/A", value="/".join(k_d_a))
             embed_message.add_field(name="Total Barons", value=complete_users[0][11])
             embed_message.add_field(name="Total Dragons", value=complete_users[0][12])
             embed_message.add_field(name="Total Turrets", value=complete_users[0][13])
@@ -391,9 +387,8 @@ async def results():
                 embed_message = discord.Embed(
                     title=f"{user[0]}: [{user[5]}]", colour=discord.Color.dark_teal()
                 )
-                embed_message.add_field(
-                    name="K/D/A", value="/".join(user[0][7], user[0][8], user[0][9])
-                )
+                k_d_a = (user[7], user[8], user[9])
+                embed_message.add_field(name="K/D/A", value="/".join(k_d_a))
                 embed_message.add_field(name="Total Barons", value=user[11])
                 embed_message.add_field(name="Total Dragons", value=user[12])
                 embed_message.add_field(name="Total Turrets", value=user[13])
@@ -406,12 +401,12 @@ async def results():
                 title=f"{POOP}{complete_users[-1][0]}{POOP}: [{complete_users[-1][5]}]",
                 colour=discord.Color.dark_teal(),
             )
-            embed_message.add_field(
-                name="K/D/A",
-                value="/".join(
-                    complete_users[-1][7], complete_users[-1][8], complete_users[-1][9]
-                ),
+            k_d_a = (
+                complete_users[-1][7],
+                complete_users[-1][8],
+                complete_users[-1][9],
             )
+            embed_message.add_field(name="K/D/A", value="/".join(k_d_a))
             embed_message.add_field(name="Total Barons", value=complete_users[-1][11])
             embed_message.add_field(name="Total Dragons", value=complete_users[-1][12])
             embed_message.add_field(name="Total Turrets", value=complete_users[-1][13])
