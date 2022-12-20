@@ -411,9 +411,9 @@ async def results():
                     + " ("
                     + str(
                         calculate_kda(
-                            complete_users[0][7],
-                            complete_users[0][8],
-                            complete_users[0][9],
+                            user[7],
+                            user[8],
+                            user[9],
                         )
                     )
                     + ")"
@@ -445,7 +445,9 @@ async def results():
                 + " ("
                 + str(
                     calculate_kda(
-                        complete_users[0][7], complete_users[0][8], complete_users[0][9]
+                        complete_users[-1][7],
+                        complete_users[-1][8],
+                        complete_users[-1][9],
                     )
                 )
                 + ")"
