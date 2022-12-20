@@ -406,8 +406,8 @@ async def results():
                 embed_message = discord.Embed(
                     title=f"{user[0]}: [{user[5]}]", colour=discord.Color.dark_teal()
                 )
-                k_d_a = "/".join(
-                    map(str, (user[7], user[8], user[9]))
+                k_d_a = (
+                    "/".join(map(str, (user[7], user[8], user[9])))
                     + " ("
                     + str(
                         calculate_kda(
