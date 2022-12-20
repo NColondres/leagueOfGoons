@@ -219,6 +219,15 @@ async def set_discord_nicknames():
             await member2.edit(nick=new_nick)
 
 
+def calculate_kda(kills: int, deaths: int, assists: int) -> str:
+    # Assists count for 70% of a kill.
+    if (kills + assists) > deaths:
+        if deaths > 0:
+            return int(((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER)
+        else:
+            return int((kills + int(assists * 0.70)) * K_D_A_MULTIPLIER)
+
+
 @tasks.loop(minutes=TASK_TIMER)
 async def results():
     await bot.wait_until_ready()
@@ -305,7 +314,7 @@ async def results():
                 colour=discord.Color.dark_teal(),
             )
             await channel.send(embed=embed_message)
-            await asyncio.sleep(3)
+            await asyncio.sleep(2)
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
                 score = 0
@@ -327,16 +336,7 @@ async def results():
                     total_turrets += match[6]
                     total_inhibs += match[7]
                     # Assists count for 70% of a kill.
-                    if (match[0] + match[2]) > match[1]:
-                        if match[1] > 0:
-                            score += int(
-                                ((match[0] + int(match[2] * 0.70)) / match[1])
-                                * K_D_A_MULTIPLIER
-                            )
-                        else:
-                            score += int(
-                                (match[0] + int(match[2] * 0.70)) * K_D_A_MULTIPLIER
-                            )
+                    score += calculate_kda(match[0], match[1], match[2])
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
@@ -373,11 +373,24 @@ async def results():
                 title=f"{CROWN}{complete_users[0][0]}{CROWN}: [{complete_users[0][5]}]",
                 colour=discord.Color.dark_teal(),
             )
-            k_d_a = "/".join(
-                map(
-                    str,
-                    (complete_users[0][7], complete_users[0][8], complete_users[0][9]),
+            k_d_a = (
+                "/".join(
+                    map(
+                        str,
+                        (
+                            complete_users[0][7],
+                            complete_users[0][8],
+                            complete_users[0][9],
+                        ),
+                    )
                 )
+                + "("
+                + str(
+                    calculate_kda(
+                        complete_users[0][7], complete_users[0][8], complete_users[0][9]
+                    )
+                )
+                + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
             embed_message.add_field(name="Total Barons", value=complete_users[0][11])
