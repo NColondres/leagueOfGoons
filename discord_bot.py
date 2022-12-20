@@ -226,7 +226,7 @@ def calculate_kda(kills: int, deaths: int, assists: int) -> str:
             return int(((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER)
         else:
             return int((kills + int(assists * 0.70)) * K_D_A_MULTIPLIER)
-
+    return 0
 
 @tasks.loop(minutes=TASK_TIMER)
 async def results():
@@ -337,7 +337,7 @@ async def results():
                     total_inhibs += match[7]
                     # Assists count for 70% of a kill.
                     print(calculate_kda(match[0], match[1], match[2]))
-                    score = score + calculate_kda(match[0], match[1], match[2])
+                    score += calculate_kda(match[0], match[1], match[2])
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
