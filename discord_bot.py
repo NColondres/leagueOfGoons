@@ -386,7 +386,7 @@ async def results():
                         ),
                     )
                 )
-                + "("
+                + " ("
                 + str(
                     calculate_kda(
                         complete_users[0][7], complete_users[0][8], complete_users[0][9]
@@ -407,7 +407,18 @@ async def results():
                 embed_message = discord.Embed(
                     title=f"{user[0]}: [{user[5]}]", colour=discord.Color.dark_teal()
                 )
-                k_d_a = "/".join(map(str, (user[7], user[8], user[9])))
+                k_d_a = "/".join(
+                    map(str, (user[7], user[8], user[9]))
+                    + " ("
+                    + str(
+                        calculate_kda(
+                            complete_users[0][7],
+                            complete_users[0][8],
+                            complete_users[0][9],
+                        )
+                    )
+                    + ")"
+                )
                 embed_message.add_field(name="K/D/A", value=k_d_a)
                 embed_message.add_field(name="Total Barons", value=user[11])
                 embed_message.add_field(name="Total Dragons", value=user[12])
@@ -421,15 +432,24 @@ async def results():
                 title=f"{POOP}{complete_users[-1][0]}{POOP}: [{complete_users[-1][5]}]",
                 colour=discord.Color.dark_teal(),
             )
-            k_d_a = "/".join(
-                map(
-                    str,
-                    (
-                        complete_users[-1][7],
-                        complete_users[-1][8],
-                        complete_users[-1][9],
-                    ),
+            k_d_a = (
+                "/".join(
+                    map(
+                        str,
+                        (
+                            complete_users[-1][7],
+                            complete_users[-1][8],
+                            complete_users[-1][9],
+                        ),
+                    )
                 )
+                + " ("
+                + str(
+                    calculate_kda(
+                        complete_users[0][7], complete_users[0][8], complete_users[0][9]
+                    )
+                )
+                + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
             embed_message.add_field(name="Total Barons", value=complete_users[-1][11])
