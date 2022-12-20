@@ -228,6 +228,7 @@ def calculate_kda(kills: int, deaths: int, assists: int) -> str:
             return int((kills + int(assists * 0.70)) * K_D_A_MULTIPLIER)
     return 0
 
+
 @tasks.loop(minutes=TASK_TIMER)
 async def results():
     await bot.wait_until_ready()
