@@ -223,9 +223,9 @@ def calculate_kda(kills: int, deaths: int, assists: int) -> str:
     # Assists count for 70% of a kill.
     if (kills + assists) > deaths:
         if deaths > 0:
-            return ((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER
+            return int(((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER)
         else:
-            return (kills + int(assists * 0.70)) * K_D_A_MULTIPLIER
+            return int((kills + int(assists * 0.70)) * K_D_A_MULTIPLIER)
     return 0
 
 
@@ -346,7 +346,7 @@ async def results():
                 score += total_barons * BARON_MULTIPLIER
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
-                score += total_turrets * INHIB_MULTIPLIER
+                score += total_inhibs * INHIB_MULTIPLIER
                 database.update_score_by_user(
                     user[1],
                     score,
