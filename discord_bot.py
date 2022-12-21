@@ -223,9 +223,9 @@ def calculate_kda(kills: int, deaths: int, assists: int) -> str:
     # Assists count for 70% of a kill.
     if (kills + assists) > deaths:
         if deaths > 0:
-            return int(((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER)
+            return ((kills + int(assists * 0.70)) / deaths) * K_D_A_MULTIPLIER
         else:
-            return int((kills + int(assists * 0.70)) * K_D_A_MULTIPLIER)
+            return (kills + int(assists * 0.70)) * K_D_A_MULTIPLIER
     return 0
 
 
@@ -319,6 +319,7 @@ async def results():
             for user in data:
                 complete_user_matches = database.get_matches_by_user(user[1])
                 score = 0
+                kda_score = 0
                 total_kills = 0
                 total_deaths = 0
                 total_assists = 0
@@ -337,7 +338,8 @@ async def results():
                     total_turrets += match[6]
                     total_inhibs += match[7]
                     # Assists count for 70% of a kill.
-                    score += calculate_kda(match[0], match[1], match[2])
+                    kda_score += calculate_kda(match[0], match[1], match[2])
+                    score += kda_score
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
@@ -356,6 +358,7 @@ async def results():
                     total_dragons,
                     total_turrets,
                     total_inhibs,
+                    kda_score,
                 )
 
             complete_users = database.get_enrolled_users()
@@ -386,11 +389,7 @@ async def results():
                     )
                 )
                 + " ("
-                + str(
-                    calculate_kda(
-                        complete_users[0][7], complete_users[0][8], complete_users[0][9]
-                    )
-                )
+                + str(complete_users[0][16])
                 + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
@@ -424,13 +423,7 @@ async def results():
                 k_d_a = (
                     "/".join(map(str, (user[7], user[8], user[9])))
                     + " ("
-                    + str(
-                        calculate_kda(
-                            user[7],
-                            user[8],
-                            user[9],
-                        )
-                    )
+                    + str(user[16])
                     + ")"
                 )
                 embed_message.add_field(name="K/D/A", value=k_d_a)
@@ -463,13 +456,7 @@ async def results():
                     )
                 )
                 + " ("
-                + str(
-                    calculate_kda(
-                        complete_users[-1][7],
-                        complete_users[-1][8],
-                        complete_users[-1][9],
-                    )
-                )
+                + str(complete_users[-1][16])
                 + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)

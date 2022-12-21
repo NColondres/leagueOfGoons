@@ -26,7 +26,8 @@ def create_database(name: str):
                 total_dragons INTEGER,
                 total_turrets INTEGER,
                 matches_completed INTEGER DEFAULT 0 NOT NULL,
-                total_inhibs INTEGER);
+                total_inhibs INTEGER,
+                kda_score INTEGER);
                 """
     )
     cur.execute(
@@ -209,6 +210,7 @@ def update_score_by_user(
     total_dragons: int,
     total_turrets: int,
     total_inhibs: int,
+    kda_score: int,
 ):
     con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
     cur = con.cursor()
@@ -224,7 +226,8 @@ def update_score_by_user(
                     total_barons = :total_barons,
                     total_dragons = :total_dragons,
                     total_turrets = :total_turrets,
-                    total_inhibs = :total_inhibs
+                    total_inhibs = :total_inhibs,
+                    kda_score = :kda_score
 
                 WHERE discord_id = :discord_id
                 """,
@@ -239,6 +242,7 @@ def update_score_by_user(
             "total_dragons": total_dragons,
             "total_turrets": total_turrets,
             "total_inhibs": total_inhibs,
+            "kda_score": kda_score,
         },
     )
     con.commit()
