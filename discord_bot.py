@@ -394,31 +394,24 @@ async def results():
                 + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
-            baron_message = f"{complete_users[0][11]} ({int(complete_users[0][11]) * BARON_MULTIPLIER})"
+            baron_message = (
+                f"{complete_users[0][11]} ({complete_users[0][11] * BARON_MULTIPLIER})"
+            )
             embed_message.add_field(name="Total Barons", value=baron_message)
-            dragon_message = " ".join(
-                [
-                    str(complete_users[0][11]),
-                    str(complete_users[0][12] * DRAGON_MULTIPLIER),
-                ],
+            dragon_message = (
+                f"{complete_users[0][12]} ({complete_users[0][12] * DRAGON_MULTIPLIER})"
             )
             embed_message.add_field(name="Total Dragons", value=dragon_message)
-            turret_message = " ".join(
-                [
-                    str(complete_users[0][13]),
-                    str(complete_users[0][13] * TURRET_MULTIPLIER),
-                ],
+            turret_message = (
+                f"{complete_users[0][13]} ({complete_users[0][13] * TURRET_MULTIPLIER})"
             )
             embed_message.add_field(name="Total Turrets", value=turret_message)
-            inhibs_message = " ".join(
-                [
-                    str(complete_users[0][15]),
-                    str(complete_users[0][15] * INHIB_MULTIPLIER),
-                ],
+            inhibs_message = (
+                f"{complete_users[0][15]} ({complete_users[0][15] * INHIB_MULTIPLIER})"
             )
             embed_message.add_field(name="Total Inhibs", value=inhibs_message)
-            wins_message = " ".join(
-                [str(complete_users[0][10]), str(complete_users[0][10] * WINS_POINTS)]
+            wins_message = (
+                f"{complete_users[0][10]} ({complete_users[0][10] * WINS_POINTS})"
             )
             embed_message.add_field(name="Total Wins", value=wins_message)
             await channel.send(embed=embed_message)
@@ -441,11 +434,16 @@ async def results():
                     + ")"
                 )
                 embed_message.add_field(name="K/D/A", value=k_d_a)
-                embed_message.add_field(name="Total Barons", value=user[11])
-                embed_message.add_field(name="Total Dragons", value=user[12])
-                embed_message.add_field(name="Total Turrets", value=user[13])
-                embed_message.add_field(name="Total Inhibs", value=user[15])
-                embed_message.add_field(name="Total Wins", value=user[10])
+                baron_message = f"{user[11]} ({user[11] * BARON_MULTIPLIER})"
+                embed_message.add_field(name="Total Barons", value=baron_message)
+                dragon_message = f"{user[12]} ({user[12] * DRAGON_MULTIPLIER})"
+                embed_message.add_field(name="Total Dragons", value=dragon_message)
+                turret_message = f"{user[13]} ({user[13] * TURRET_MULTIPLIER})"
+                embed_message.add_field(name="Total Turrets", value=turret_message)
+                inhibs_message = f"{user[15]} ({user[15] * INHIB_MULTIPLIER})"
+                embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+                wins_message = f"{user[10]} ({user[10] * WINS_POINTS})"
+                embed_message.add_field(name="Total Wins", value=wins_message)
                 await channel.send(embed=embed_message)
                 await asyncio.sleep(2)
             print(f"{complete_users[-1][0]}: [{complete_users[-1][5]}]")
@@ -475,7 +473,8 @@ async def results():
                 + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
-            embed_message.add_field(name="Total Barons", value=complete_users[-1][11])
+            baron_message = f"{complete_users[-1][11]} ({complete_users[-1][11] * BARON_MULTIPLIER})"
+            embed_message.add_field(name="Total Barons", value=baron_message)
             embed_message.add_field(name="Total Dragons", value=complete_users[-1][12])
             embed_message.add_field(name="Total Turrets", value=complete_users[-1][13])
             embed_message.add_field(name="Total Inhibs", value=complete_users[-1][15])
