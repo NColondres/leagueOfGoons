@@ -338,8 +338,9 @@ async def results():
                     total_turrets += match[6]
                     total_inhibs += match[7]
                     # Assists count for 70% of a kill.
-                    kda_score += calculate_kda(match[0], match[1], match[2])
-                    score += kda_score
+                    kda = calculate_kda(match[0], match[1], match[2])
+                    kda_score += kda
+                    score += kda
                     if win:
                         total_wins += 1
                         score += WINS_POINTS
