@@ -484,7 +484,7 @@ async def results():
             wins_message = (
                 f"{complete_users[-1][10]} ({complete_users[-1][10] * WINS_POINTS})"
             )
-            embed_message.add_field(name="Total Wins", value=WINS_POINTS)
+            embed_message.add_field(name="Total Wins", value=wins_message)
             await channel.send(embed=embed_message)
             await asyncio.sleep(3)
 
