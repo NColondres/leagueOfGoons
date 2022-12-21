@@ -405,12 +405,12 @@ async def results():
                 complete_users[0][13],
                 str(int(complete_users[0][13]) * TURRET_MULTIPLIER),
             )
-            embed_message.add_field(name="Total Turrets", value=complete_users[0][13])
+            embed_message.add_field(name="Total Turrets", value=turret_message)
             inhibs_message = " ".join(
                 complete_users[0][15],
                 str(int(complete_users[0][15]) * INHIB_MULTIPLIER),
             )
-            embed_message.add_field(name="Total Inhibs", value=complete_users[0][15])
+            embed_message.add_field(name="Total Inhibs", value=inhibs_message)
             wins_message = " ".join(
                 complete_users[0][10], str(int(complete_users[0][10]) * WINS_POINTS)
             )
