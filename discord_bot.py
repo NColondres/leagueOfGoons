@@ -475,10 +475,16 @@ async def results():
             embed_message.add_field(name="K/D/A", value=k_d_a)
             baron_message = f"{complete_users[-1][11]} ({complete_users[-1][11] * BARON_MULTIPLIER})"
             embed_message.add_field(name="Total Barons", value=baron_message)
+            dragon_message = f"{complete_users[-1][12]} ({complete_users[-1][12] * DRAGON_MULTIPLIER})"
             embed_message.add_field(name="Total Dragons", value=complete_users[-1][12])
-            embed_message.add_field(name="Total Turrets", value=complete_users[-1][13])
-            embed_message.add_field(name="Total Inhibs", value=complete_users[-1][15])
-            embed_message.add_field(name="Total Wins", value=complete_users[-1][10])
+            turret_message = f"{complete_users[-1][13]} ({complete_users[-1][13] * TURRET_MULTIPLIER})"
+            embed_message.add_field(name="Total Turrets", value=turret_message)
+            inhibs_message = f"{complete_users[-1][15]} ({complete_users[-1][15] * INHIB_MULTIPLIER})"
+            embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+            wins_message = (
+                f"{complete_users[-1][10]} ({complete_users[-1][10] * WINS_POINTS})"
+            )
+            embed_message.add_field(name="Total Wins", value=WINS_POINTS)
             await channel.send(embed=embed_message)
             await asyncio.sleep(3)
 
