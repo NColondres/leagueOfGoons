@@ -1,5 +1,4 @@
 import sqlite3
-import os
 import configparser
 
 config = configparser.ConfigParser()
