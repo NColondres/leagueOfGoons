@@ -1,8 +1,9 @@
 import sqlite3
 import configparser
-
+import os
+print("databse.py cwd:", os.getcwd())
 config = configparser.ConfigParser()
-config.read("../config")
+config.read("/app/config")
 scoring = config["SCORING"]
 PLAYERS_DATABASE = "players_data.db"
 AMOUNT_OF_GAMES = int(scoring["NUMBER_OF_MATCHES"])

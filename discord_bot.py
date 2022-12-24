@@ -10,7 +10,7 @@ import configparser
 
 # Read config file in root directory
 config = configparser.ConfigParser()
-config.read("config")
+config.read(f"{os.getcwd()}/config")
 scoring = config["SCORING"]
 
 BOT_TOKEN = os.getenv("LEAGUE_OF_GOONS_BOT_TOKEN")
