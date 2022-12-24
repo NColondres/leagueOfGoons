@@ -3,24 +3,35 @@ import discord
 from discord.ext.commands.errors import CommandNotFound
 import os
 from discord.ext import commands, tasks
-from src import league, database, challenge_database
+from src import league, database
 import time
 import asyncio
+import configparser
+
+# Read config file in root directory
+config = configparser.ConfigParser()
+config.read("config")
+scoring = config["SCORING"]
 
 BOT_TOKEN = os.getenv("LEAGUE_OF_GOONS_BOT_TOKEN")
 DISCORD_CHANNEL = os.getenv("DISCORD_CHANNEL")
 LEAGUE_OF_GOONS_SERVER_ID = int(os.getenv("LEAGUE_OF_GOONS_SERVER"))
-K_D_A_MULTIPLIER = int(os.getenv("K_D_A_MULTIPLIER"))
-BARON_MULTIPLIER = int(os.getenv("BARON_MULTIPLIER"))
-DRAGON_MULTIPLIER = int(os.getenv("DRAGON_MULTIPLIER"))
-TURRET_MULTIPLIER = int(os.getenv("TURRET_MULTIPLIER"))
-INHIB_MULTIPLIER = int(os.getenv("INHIB_MULTIPLIER"))
-WINS_POINTS = int(os.getenv("WINS_POINTS"))
-NUMBER_OF_MATCHES = os.getenv("NUMBER_OF_MATCHES")
+MINIMUM_PLAYERS = int(config["RULES"]["MINIMUM_PLAYERS"])
+K_D_A_MULTIPLIER = int(scoring["K_D_A_MULTIPLIER"])
+BARON_MULTIPLIER = int(scoring["BARON_MULTIPLIER"])
+DRAGON_MULTIPLIER = int(scoring["DRAGON_MULTIPLIER"])
+TURRET_MULTIPLIER = int(scoring["TURRET_MULTIPLIER"])
+INHIB_MULTIPLIER = int(scoring["INHIB_MULTIPLIER"])
+RIFT_MULTIPLIER = int(scoring["RIFT_MULTIPLIER"])
+PENTA_MULTIPLIER = int(scoring["PENTA_MULTIPLIER"])
+VISION_MULTIPLIER = int(scoring["VISION_MULTIPLIER"])
+WINS_POINTS = int(scoring["WINS_POINTS"])
+NUMBER_OF_MATCHES = scoring["NUMBER_OF_MATCHES"]
 TASK_TIMER = 1  # Number of minutes to run task
 
-CROWN = os.getenv("CROWN")
-POOP = os.getenv("POOP")
+emoji = config["EMOJI"]
+CROWN = emoji["CROWN"]
+POOP = emoji["POOP"]
 
 help_command = commands.DefaultHelpCommand(
     no_category="Commands",
@@ -268,6 +279,14 @@ async def results():
                                     print("Turrets:", participant["turretTakedowns"])
                                     print("Inhibs:", participant["inhibitorTakedowns"])
                                     print(
+                                        "Rifts:",
+                                        participant["challenges"][
+                                            "riftHeraldTakedowns"
+                                        ],
+                                    )
+                                    print("Pentas:", participant["pentaKills"])
+                                    print("Vision Score:", participant["visionScore"])
+                                    print(
                                         database.insert_match(
                                             match,
                                             user[1],
@@ -284,6 +303,11 @@ async def results():
                                             participant["dragonKills"],
                                             participant["turretTakedowns"],
                                             participant["inhibitorTakedowns"],
+                                            participant["challenges"][
+                                                "riftHeraldTakedowns"
+                                            ],
+                                            participant["pentaKills"],
+                                            participant["visionScore"],
                                         )
                                     )
                                     print()
@@ -308,7 +332,7 @@ async def results():
             else:
                 tournament_complete_count += 1
 
-        if tournament_complete_count == len(data) and len(data) >= 4:
+        if tournament_complete_count == len(data) and len(data) >= MINIMUM_PLAYERS:
             print(f"All users have completed their {database.AMOUNT_OF_GAMES} games\n")
             embed_message = discord.Embed(
                 title="TOURNAMENT ENDED\nANNOUNCING SCORES",
@@ -328,6 +352,9 @@ async def results():
                 total_dragons = 0
                 total_turrets = 0
                 total_inhibs = 0
+                total_rifts = 0
+                total_pentas = 0
+                total_vision_score = 0
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
@@ -337,6 +364,9 @@ async def results():
                     total_dragons += match[5]
                     total_turrets += match[6]
                     total_inhibs += match[7]
+                    total_rifts += match[8]
+                    total_pentas += match[9]
+                    total_vision_score += match[10]
                     # Assists count for 70% of a kill.
                     kda = calculate_kda(match[0], match[1], match[2])
                     kda_score += kda
@@ -348,6 +378,9 @@ async def results():
                 score += total_dragons * DRAGON_MULTIPLIER
                 score += total_turrets * TURRET_MULTIPLIER
                 score += total_inhibs * INHIB_MULTIPLIER
+                score += total_rifts * RIFT_MULTIPLIER
+                score += total_pentas * PENTA_MULTIPLIER
+                score += total_vision_score * VISION_MULTIPLIER
                 database.update_score_by_user(
                     user[1],
                     score,
@@ -360,6 +393,9 @@ async def results():
                     total_turrets,
                     total_inhibs,
                     kda_score,
+                    total_rifts,
+                    total_pentas,
+                    total_vision_score,
                 )
 
             complete_users = database.get_enrolled_users()
@@ -410,6 +446,18 @@ async def results():
                 f"{complete_users[0][15]} ({complete_users[0][15] * INHIB_MULTIPLIER})"
             )
             embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+            rift_message = (
+                f"{complete_users[0][17]} ({complete_users[0][17] * RIFT_MULTIPLIER})"
+            )
+            embed_message.add_field(name="Total Rifts", value=rift_message)
+            # Show pentas if user actually got one.
+            if complete_users[0][18] > 0:
+                penta_message = f"{complete_users[0][18]} ({complete_users[0][18] * PENTA_MULTIPLIER})"
+                embed_message.add_field(name="Total Pentas", value=penta_message)
+            vision_message = (
+                f"{complete_users[0][19]} ({complete_users[0][19] * VISION_MULTIPLIER})"
+            )
+            embed_message.add_field(name="Total Vision Score", value=vision_message)
             wins_message = (
                 f"{complete_users[0][10]} ({complete_users[0][10] * WINS_POINTS})"
             )
@@ -436,6 +484,14 @@ async def results():
                 embed_message.add_field(name="Total Turrets", value=turret_message)
                 inhibs_message = f"{user[15]} ({user[15] * INHIB_MULTIPLIER})"
                 embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+                rift_message = f"{user[17]} ({user[17] * RIFT_MULTIPLIER})"
+                embed_message.add_field(name="Total Rifts", value=rift_message)
+                # Show pentas if user actually got one.
+                if user[18] > 0:
+                    penta_message = f"{user[18]} ({user[18] * PENTA_MULTIPLIER})"
+                    embed_message.add_field(name="Total Pentas", value=penta_message)
+                vision_message = f"{user[19]} ({user[19] * VISION_MULTIPLIER})"
+                embed_message.add_field(name="Total Vision Score", value=vision_message)
                 wins_message = f"{user[10]} ({user[10] * WINS_POINTS})"
                 embed_message.add_field(name="Total Wins", value=wins_message)
                 await channel.send(embed=embed_message)
@@ -469,6 +525,16 @@ async def results():
             embed_message.add_field(name="Total Turrets", value=turret_message)
             inhibs_message = f"{complete_users[-1][15]} ({complete_users[-1][15] * INHIB_MULTIPLIER})"
             embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+            rift_message = (
+                f"{complete_users[-1][17]} ({complete_users[-1][17] * RIFT_MULTIPLIER})"
+            )
+            embed_message.add_field(name="Total Rifts", value=rift_message)
+            # Show pentas if user actually got one.
+            if complete_users[-1][18] > 0:
+                penta_message = f"{complete_users[-1][18]} ({complete_users[-1][18] * PENTA_MULTIPLIER})"
+                embed_message.add_field(name="Total Pentas", value=penta_message)
+            vision_message = f"{complete_users[-1][19]} ({complete_users[-1][19] * VISION_MULTIPLIER})"
+            embed_message.add_field(name="Total Vision Score", value=vision_message)
             wins_message = (
                 f"{complete_users[-1][10]} ({complete_users[-1][10] * WINS_POINTS})"
             )
@@ -478,14 +544,6 @@ async def results():
 
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
-
-
-# Challenges commands
-@bot.command(brief="Get all members in server")
-async def members(ctx):
-    await ctx.reply(bot.users)
-    await ctx.send(list(bot.get_all_members()))
-    await ctx.send(await challenge_database.get_challenges(ctx.message.author.id))
 
 
 if __name__ == "__main__":

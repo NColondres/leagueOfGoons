@@ -1,8 +1,12 @@
 import sqlite3
 import os
+import configparser
 
+config = configparser.ConfigParser()
+config.read("../config")
+scoring = config["SCORING"]
 PLAYERS_DATABASE = "players_data.db"
-AMOUNT_OF_GAMES = int(os.getenv("NUMBER_OF_MATCHES"))
+AMOUNT_OF_GAMES = int(scoring["NUMBER_OF_MATCHES"])
 
 
 def create_database(name: str):
@@ -27,7 +31,10 @@ def create_database(name: str):
                 total_turrets INTEGER,
                 matches_completed INTEGER DEFAULT 0 NOT NULL,
                 total_inhibs INTEGER,
-                kda_score INTEGER);
+                kda_score INTEGER,
+                total_rifts INTEGER,
+                total_pentas INTEGER,
+                total_vision_score INTEGER);
                 """
     )
     cur.execute(
@@ -45,6 +52,9 @@ def create_database(name: str):
                 dragons INTEGER,
                 turrets INTEGER,
                 inhibs INTEGER,
+                pentas INTEGER,
+                rifts INTEGER,
+                vision_score INTEGER
                 FOREIGN KEY(player_id) REFERENCES players(discord_id));"""
     )
     cur.execute(
@@ -128,12 +138,15 @@ def insert_match(
     dragons,
     turrets,
     inhibs,
+    rifts,
+    pentas,
+    vision_score,
 ):
     con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
     cur = con.cursor()
     cur.execute(
         """
-                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets, inhibs) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp, :barons, :dragons, :turrets, :inhibs)
+                INSERT INTO matches (match_id, player_id, kills, deaths, assists, champion, win, match_end_timestamp, barons, dragons, turrets, inhibs, rifts, pentas, vision_score) VALUES(:match_id, :player_id, :kills, :deaths, :assists, :champion, :win, :match_end_timestamp, :barons, :dragons, :turrets, :inhibs, :rifts, :pentas, :vision_score)
     """,
         {
             "match_id": str(match_id),
@@ -148,6 +161,9 @@ def insert_match(
             "dragons": dragons,
             "turrets": turrets,
             "inhibs": inhibs,
+            "rifts": rifts,
+            "pentas": pentas,
+            "vision_score": vision_score,
         },
     )
     con.commit()
@@ -160,7 +176,7 @@ def get_matches_by_user(discord_id):
     cur = con.cursor()
     cur.execute(
         """
-                SELECT kills, deaths, assists, win, barons, dragons, turrets, inhibs FROM matches
+                SELECT kills, deaths, assists, win, barons, dragons, turrets, inhibs, rifts, pentas, vision_score FROM matches
                 WHERE player_id = (:discord_id)
                 ORDER BY match_end_timestamp ASC
                 """,
@@ -211,6 +227,9 @@ def update_score_by_user(
     total_turrets: int,
     total_inhibs: int,
     kda_score: int,
+    total_rifts: int,
+    total_pentas: int,
+    total_vision_score: int,
 ):
     con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
     cur = con.cursor()
@@ -227,7 +246,10 @@ def update_score_by_user(
                     total_dragons = :total_dragons,
                     total_turrets = :total_turrets,
                     total_inhibs = :total_inhibs,
-                    kda_score = :kda_score
+                    kda_score = :kda_score,
+                    total_rifts = :total_rifts,
+                    total_pentas = :total_pentas,
+                    total_vision_score = :total_vision_score
 
                 WHERE discord_id = :discord_id
                 """,
@@ -243,6 +265,9 @@ def update_score_by_user(
             "total_turrets": total_turrets,
             "total_inhibs": total_inhibs,
             "kda_score": kda_score,
+            "total_rifts": total_rifts,
+            "total_pentas": total_pentas,
+            "total_vision_score": total_vision_score,
         },
     )
     con.commit()
