@@ -1,6 +1,7 @@
 import sqlite3
 import configparser
 import os
+
 print("databse.py cwd:", os.getcwd())
 config = configparser.ConfigParser()
 config.read("/app/config")
