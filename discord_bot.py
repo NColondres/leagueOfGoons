@@ -556,5 +556,6 @@ async def results():
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
 
+
 if __name__ == "__main__":
     bot.run(BOT_TOKEN)
