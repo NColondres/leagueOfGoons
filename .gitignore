@@ -1,5 +1,6 @@
 #Ignore Environment Variables
-.env
+.env*
+Pipfile*
 #Ignore the DB file created for the tournament
 src/database/players_data.db
 

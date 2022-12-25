@@ -39,6 +39,7 @@ help_command = commands.DefaultHelpCommand(
 
 intents = discord.Intents.default()
 intents.members = True
+intents.message_content = True
 bot = commands.Bot(
     command_prefix="!",
     case_insensitive=True,
@@ -51,6 +52,7 @@ bot = commands.Bot(
 @bot.event
 async def on_ready():
     print("Bot is ready")
+    results.start()
 
 
 @bot.event
@@ -150,6 +152,15 @@ async def rules(ctx):
     )
     embed_message.add_field(
         name="Turret", value=f"{str(TURRET_MULTIPLIER)} points", inline=False
+    )
+    embed_message.add_field(
+        name="Rift", value=f"{str(RIFT_MULTIPLIER)} points", inline=False
+    )
+    embed_message.add_field(
+        name="Penta", value=f"{str(PENTA_MULTIPLIER)} points", inline=False
+    )
+    embed_message.add_field(
+        name="Vision Score", value=f"{str(VISION_MULTIPLIER)} points", inline=False
     )
     embed_message.add_field(
         name="K/D/A",
@@ -425,7 +436,7 @@ async def results():
                         ),
                     )
                 )
-                + " ("
+                + "\n("
                 + str(complete_users[0][16])
                 + ")"
             )
@@ -433,35 +444,35 @@ async def results():
             baron_message = (
                 f"{complete_users[0][11]} ({complete_users[0][11] * BARON_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Barons", value=baron_message)
+            embed_message.add_field(name="Barons", value=baron_message)
             dragon_message = (
                 f"{complete_users[0][12]} ({complete_users[0][12] * DRAGON_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Dragons", value=dragon_message)
+            embed_message.add_field(name="Dragons", value=dragon_message)
             turret_message = (
                 f"{complete_users[0][13]} ({complete_users[0][13] * TURRET_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Turrets", value=turret_message)
+            embed_message.add_field(name="Turrets", value=turret_message)
             inhibs_message = (
                 f"{complete_users[0][15]} ({complete_users[0][15] * INHIB_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+            embed_message.add_field(name="Inhibs", value=inhibs_message)
             rift_message = (
                 f"{complete_users[0][17]} ({complete_users[0][17] * RIFT_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Rifts", value=rift_message)
+            embed_message.add_field(name="Rifts", value=rift_message)
             # Show pentas if user actually got one.
             if complete_users[0][18] > 0:
                 penta_message = f"{complete_users[0][18]} ({complete_users[0][18] * PENTA_MULTIPLIER})"
-                embed_message.add_field(name="Total Pentas", value=penta_message)
+                embed_message.add_field(name="PENTAS", value=penta_message)
             vision_message = (
                 f"{complete_users[0][19]} ({complete_users[0][19] * VISION_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Vision Score", value=vision_message)
+            embed_message.add_field(name="Vision", value=vision_message)
             wins_message = (
                 f"{complete_users[0][10]} ({complete_users[0][10] * WINS_POINTS})"
             )
-            embed_message.add_field(name="Total Wins", value=wins_message)
+            embed_message.add_field(name="Wins", value=wins_message)
             await channel.send(embed=embed_message)
             await asyncio.sleep(2)
             for user in complete_users[1:-1]:
@@ -471,29 +482,29 @@ async def results():
                 )
                 k_d_a = (
                     "/".join(map(str, (user[7], user[8], user[9])))
-                    + " ("
+                    + "\n("
                     + str(user[16])
                     + ")"
                 )
                 embed_message.add_field(name="K/D/A", value=k_d_a)
                 baron_message = f"{user[11]} ({user[11] * BARON_MULTIPLIER})"
-                embed_message.add_field(name="Total Barons", value=baron_message)
+                embed_message.add_field(name="Barons", value=baron_message)
                 dragon_message = f"{user[12]} ({user[12] * DRAGON_MULTIPLIER})"
-                embed_message.add_field(name="Total Dragons", value=dragon_message)
+                embed_message.add_field(name="Dragons", value=dragon_message)
                 turret_message = f"{user[13]} ({user[13] * TURRET_MULTIPLIER})"
-                embed_message.add_field(name="Total Turrets", value=turret_message)
+                embed_message.add_field(name="Turrets", value=turret_message)
                 inhibs_message = f"{user[15]} ({user[15] * INHIB_MULTIPLIER})"
-                embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+                embed_message.add_field(name="Inhibs", value=inhibs_message)
                 rift_message = f"{user[17]} ({user[17] * RIFT_MULTIPLIER})"
-                embed_message.add_field(name="Total Rifts", value=rift_message)
+                embed_message.add_field(name="Rifts", value=rift_message)
                 # Show pentas if user actually got one.
                 if user[18] > 0:
                     penta_message = f"{user[18]} ({user[18] * PENTA_MULTIPLIER})"
-                    embed_message.add_field(name="Total Pentas", value=penta_message)
+                    embed_message.add_field(name="PENTAS", value=penta_message)
                 vision_message = f"{user[19]} ({user[19] * VISION_MULTIPLIER})"
-                embed_message.add_field(name="Total Vision Score", value=vision_message)
+                embed_message.add_field(name="Vision", value=vision_message)
                 wins_message = f"{user[10]} ({user[10] * WINS_POINTS})"
-                embed_message.add_field(name="Total Wins", value=wins_message)
+                embed_message.add_field(name="Wins", value=wins_message)
                 await channel.send(embed=embed_message)
                 await asyncio.sleep(2)
             print(f"{complete_users[-1][0]}: [{complete_users[-1][5]}]")
@@ -512,40 +523,38 @@ async def results():
                         ),
                     )
                 )
-                + " ("
+                + "\n("
                 + str(complete_users[-1][16])
                 + ")"
             )
             embed_message.add_field(name="K/D/A", value=k_d_a)
             baron_message = f"{complete_users[-1][11]} ({complete_users[-1][11] * BARON_MULTIPLIER})"
-            embed_message.add_field(name="Total Barons", value=baron_message)
+            embed_message.add_field(name="Barons", value=baron_message)
             dragon_message = f"{complete_users[-1][12]} ({complete_users[-1][12] * DRAGON_MULTIPLIER})"
-            embed_message.add_field(name="Total Dragons", value=complete_users[-1][12])
+            embed_message.add_field(name="Dragons", value=complete_users[-1][12])
             turret_message = f"{complete_users[-1][13]} ({complete_users[-1][13] * TURRET_MULTIPLIER})"
-            embed_message.add_field(name="Total Turrets", value=turret_message)
+            embed_message.add_field(name="Turrets", value=turret_message)
             inhibs_message = f"{complete_users[-1][15]} ({complete_users[-1][15] * INHIB_MULTIPLIER})"
-            embed_message.add_field(name="Total Inhibs", value=inhibs_message)
+            embed_message.add_field(name="Inhibs", value=inhibs_message)
             rift_message = (
                 f"{complete_users[-1][17]} ({complete_users[-1][17] * RIFT_MULTIPLIER})"
             )
-            embed_message.add_field(name="Total Rifts", value=rift_message)
+            embed_message.add_field(name="Rifts", value=rift_message)
             # Show pentas if user actually got one.
             if complete_users[-1][18] > 0:
                 penta_message = f"{complete_users[-1][18]} ({complete_users[-1][18] * PENTA_MULTIPLIER})"
-                embed_message.add_field(name="Total Pentas", value=penta_message)
+                embed_message.add_field(name="PENTAS", value=penta_message)
             vision_message = f"{complete_users[-1][19]} ({complete_users[-1][19] * VISION_MULTIPLIER})"
-            embed_message.add_field(name="Total Vision Score", value=vision_message)
+            embed_message.add_field(name="Vision", value=vision_message)
             wins_message = (
                 f"{complete_users[-1][10]} ({complete_users[-1][10] * WINS_POINTS})"
             )
-            embed_message.add_field(name="Total Wins", value=wins_message)
+            embed_message.add_field(name="Wins", value=wins_message)
             await channel.send(embed=embed_message)
             await asyncio.sleep(3)
 
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
 
-
 if __name__ == "__main__":
-    results.start()
     bot.run(BOT_TOKEN)

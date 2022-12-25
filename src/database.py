@@ -2,9 +2,8 @@ import sqlite3
 import configparser
 import os
 
-print("databse.py cwd:", os.getcwd())
 config = configparser.ConfigParser()
-config.read("/app/config")
+config.read(f"{os.getcwd()}/config")
 scoring = config["SCORING"]
 PLAYERS_DATABASE = "players_data.db"
 AMOUNT_OF_GAMES = int(scoring["NUMBER_OF_MATCHES"])
@@ -55,7 +54,7 @@ def create_database(name: str):
                 inhibs INTEGER,
                 pentas INTEGER,
                 rifts INTEGER,
-                vision_score INTEGER
+                vision_score INTEGER,
                 FOREIGN KEY(player_id) REFERENCES players(discord_id));"""
     )
     cur.execute(
