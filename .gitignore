@@ -6,3 +6,4 @@ src/database/players_data.db
 
 #Ignore scripts used for testing
 scripts/
+test/

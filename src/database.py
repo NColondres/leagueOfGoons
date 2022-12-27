@@ -110,7 +110,11 @@ def get_enrolled_users():
     con = sqlite3.connect(f"./src/database/{PLAYERS_DATABASE}")
     cur = con.cursor()
     cur.execute("SELECT * FROM players ORDER BY score DESC")
-    return cur.fetchall()
+    columns = list(map(lambda x: x[0], cur.description))
+    players = []
+    for player in cur.fetchall():
+        players.append(dict(zip(columns, player)))
+    return players
 
 
 def unenroll_user(discord_account: str):
