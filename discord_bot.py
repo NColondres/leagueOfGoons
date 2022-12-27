@@ -288,8 +288,8 @@ async def results():
                                     print("Assists:", participant["assists"])
                                     print("Champion:", participant["championName"])
                                     print("Win:", participant["win"])
-                                    print("Baron Kills:", participant["baronKills"])
-                                    print("Dragon Kills:", participant["dragonKills"])
+                                    print("Baron Kills:", participant["challenges"]["baronTakedowns"])
+                                    print("Dragon Kills:", participant["challenges"]["dragonTakedowns"])
                                     print("Turrets:", participant["turretTakedowns"])
                                     print("Inhibs:", participant["inhibitorTakedowns"])
                                     print(
@@ -313,8 +313,8 @@ async def results():
                                                 (match_info["info"]["gameEndTimestamp"])
                                                 / 1000
                                             ),
-                                            participant["baronKills"],
-                                            participant["dragonKills"],
+                                            participant["challenges"]["baronTakedowns"],
+                                            participant["challenges"]["baronTakedowns"],
                                             participant["turretTakedowns"],
                                             participant["inhibitorTakedowns"],
                                             participant["challenges"][
