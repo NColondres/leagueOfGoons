@@ -288,8 +288,14 @@ async def results():
                                     print("Assists:", participant["assists"])
                                     print("Champion:", participant["championName"])
                                     print("Win:", participant["win"])
-                                    print("Baron Kills:", participant["challenges"]["baronTakedowns"])
-                                    print("Dragon Kills:", participant["challenges"]["dragonTakedowns"])
+                                    print(
+                                        "Baron Kills:",
+                                        participant["challenges"]["baronTakedowns"],
+                                    )
+                                    print(
+                                        "Dragon Kills:",
+                                        participant["challenges"]["dragonTakedowns"],
+                                    )
                                     print("Turrets:", participant["turretTakedowns"])
                                     print("Inhibs:", participant["inhibitorTakedowns"])
                                     print(
