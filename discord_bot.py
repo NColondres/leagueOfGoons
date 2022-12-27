@@ -320,7 +320,9 @@ async def results():
                                                 / 1000
                                             ),
                                             participant["challenges"]["baronTakedowns"],
-                                            participant["challenges"]["baronTakedowns"],
+                                            participant["challenges"][
+                                                "dragonTakedowns"
+                                            ],
                                             participant["turretTakedowns"],
                                             participant["inhibitorTakedowns"],
                                             participant["challenges"][
