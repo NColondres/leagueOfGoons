@@ -25,8 +25,9 @@ INHIB_MULTIPLIER = int(scoring["INHIB_MULTIPLIER"])
 RIFT_MULTIPLIER = int(scoring["RIFT_MULTIPLIER"])
 PENTA_MULTIPLIER = int(scoring["PENTA_MULTIPLIER"])
 VISION_MULTIPLIER = int(scoring["VISION_MULTIPLIER"])
+CREEP_MULTIPLIER = float(scoring["CREEP_SCORE"])
 WINS_POINTS = int(scoring["WINS_POINTS"])
-NUMBER_OF_MATCHES = scoring["NUMBER_OF_MATCHES"]
+NUMBER_OF_MATCHES = config["RULES"]["NUMBER_OF_MATCHES"]
 TASK_TIMER = 1  # Number of minutes to run task
 
 emoji = config["EMOJI"]
@@ -164,6 +165,9 @@ async def rules(ctx):
         name="Vision Score", value=f"{str(VISION_MULTIPLIER)} points", inline=False
     )
     embed_message.add_field(
+        name="Creep Score", value=f"{str(CREEP_MULTIPLIER)} points", inline=False
+    )
+    embed_message.add_field(
         name="K/D/A",
         value=f"Kills + Assists / Deaths multiplied by {str(K_D_A_MULTIPLIER)}\nNOTE: Points only added if Kills + Assists greater than Deaths. No points for being trash",
         inline=False,
@@ -198,21 +202,6 @@ def complete_user(user: tuple):
             "\n---------------------------------------\n",
         )
         database.update_complete_status_by_user(user["discord_id"], 1)
-        for match in user_matches:
-            kills = match[0]
-            deaths = match[1]
-            assists = match[2]
-            win = match[3]
-            print(
-                "Kills:",
-                kills,
-                "Deaths:",
-                deaths,
-                "Assists:",
-                assists,
-                "**Win**" if win else "**Loss**",
-            )
-            print()
         return True
     else:
         return False
@@ -307,6 +296,11 @@ async def results():
                                     print("Pentas:", participant["pentaKills"])
                                     print("Vision Score:", participant["visionScore"])
                                     print(
+                                        "Creep Score:",
+                                        participant["neutralMinionsKilled"]
+                                        + participant["totalMinionsKilled"],
+                                    )
+                                    print(
                                         database.insert_match(
                                             match,
                                             user["discord_id"],
@@ -330,6 +324,8 @@ async def results():
                                             ],
                                             participant["pentaKills"],
                                             participant["visionScore"],
+                                            participant["neutralMinionsKilled"]
+                                            + participant["totalMinionsKilled"],
                                         )
                                     )
                                     print()
@@ -338,7 +334,9 @@ async def results():
                                     )
                             match_count += 1
                         else:
-                            print("Match not a Classic game\n")
+                            print(
+                                f"{match} is not a 'Classic' game or not longer than 10 minutes\n"
+                            )
                     last_match = int(
                         (
                             league.get_match_info(matches[0])["info"][
@@ -379,6 +377,7 @@ async def results():
                 total_rifts = 0
                 total_pentas = 0
                 total_vision_score = 0
+                total_creep_score = 0
                 for match in complete_user_matches:
                     total_kills += match[0]
                     total_deaths += match[1]
@@ -391,6 +390,7 @@ async def results():
                     total_rifts += match[8]
                     total_pentas += match[9]
                     total_vision_score += match[10]
+                    total_creep_score += match[11]
                     # Assists count for 70% of a kill.
                     kda = calculate_kda(match[0], match[1], match[2])
                     kda_score += kda
@@ -405,6 +405,7 @@ async def results():
                 score += total_rifts * RIFT_MULTIPLIER
                 score += total_pentas * PENTA_MULTIPLIER
                 score += total_vision_score * VISION_MULTIPLIER
+                score += int(total_creep_score * CREEP_MULTIPLIER)
                 database.update_score_by_user(
                     user["discord_id"],
                     score,
@@ -420,6 +421,7 @@ async def results():
                     total_rifts,
                     total_pentas,
                     total_vision_score,
+                    total_creep_score,
                 )
 
             complete_users = database.get_enrolled_users()
@@ -488,6 +490,8 @@ async def results():
                     embed_message.add_field(name="PENTAS", value=penta_message)
                 vision_message = f"{user['total_vision_score']} ({user['total_vision_score'] * VISION_MULTIPLIER})"
                 embed_message.add_field(name="Vision", value=vision_message)
+                creep_message = f"{user['total_creep_score']} ({int(user['total_creep_score'] * CREEP_MULTIPLIER)})"
+                embed_message.add_field(name="Creeps", value=creep_message)
                 wins_message = (
                     f"{user['total_wins']} ({user['total_wins'] * WINS_POINTS})"
                 )
