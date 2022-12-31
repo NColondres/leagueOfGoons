@@ -504,4 +504,4 @@ async def results():
 
 
 if __name__ == "__main__":
-    bot.run(BOT_TOKEN)
+    bot.run(BOT_TOKEN, log_handler=None)
