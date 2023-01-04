@@ -442,12 +442,12 @@ async def results():
             for count, user in enumerate(complete_users):
                 if count == 0:
                     embed_message = discord.Embed(
-                        title=f"{CROWN}{complete_users[0]['discord_account']}{CROWN}: [{complete_users[0]['score']}]",
+                        title=f"{CROWN}{user['discord_account']}{CROWN}: [{user['score']}]",
                         colour=discord.Color.dark_teal(),
                     )
                 elif count == len(complete_users) - 1:
                     embed_message = discord.Embed(
-                        title=f"{POOP}{complete_users[-1]['discord_account']}{POOP}: [{complete_users[-1]['score']}]",
+                        title=f"{POOP}{user['discord_account']}{POOP}: [{user['score']}]",
                         colour=discord.Color.dark_teal(),
                     )
                 else:
@@ -501,6 +501,14 @@ async def results():
 
             # Clear the matches and players database to start a new tournament
             database.clear_matches_and_players()
+            # Auto enroll winner to defend his title.
+            database.enroll_user(
+                complete_users[0]["discord_account"],
+                complete_users[0]["discord_id"],
+                complete_users[0]["league_account"],
+                complete_users[0]["league_puuid"],
+                int(time.time()) + 600,
+            )
 
 
 if __name__ == "__main__":
